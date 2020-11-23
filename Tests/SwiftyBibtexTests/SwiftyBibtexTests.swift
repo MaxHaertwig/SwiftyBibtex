@@ -32,6 +32,10 @@ final class SwiftyBibtexTests: XCTestCase {
         }
     }
     
+    func testTagValueConcat() {
+        testTagValue("\"a\" # \"  b \"   # \" c\"", expected: "a  b  c")
+    }
+    
     private func testCurlyTagValue(_ tagValue: String) {
         testTagValue("{\(tagValue)}", expected: tagValue)
     }

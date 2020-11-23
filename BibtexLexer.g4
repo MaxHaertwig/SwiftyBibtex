@@ -2,6 +2,7 @@ lexer grammar BibtexLexer;
 
 TAG_VALUE_CURLY_START : '=' [ \t\r\n]* '{' -> pushMode(TAG_VALUE_CURLY_MODE) ;
 TAG_VALUE_QUOTE_START : '=' [ \t\r\n]* '"' -> pushMode(TAG_VALUE_QUOTE_MODE) ;
+TAG_VALUE_CONCAT_START : '#' [ \t\r\n]* '"' -> pushMode(TAG_VALUE_QUOTE_MODE) ;
 
 AT : '@' ;
 COMMA : ',' ;
