@@ -1,4 +1,4 @@
-// Generated from Bibtex.g4 by ANTLR 4.8
+// Generated from BibtexParser.g4 by ANTLR 4.8
 import Antlr4
 
 open class BibtexParser: Parser {
@@ -16,8 +16,8 @@ open class BibtexParser: Parser {
 
 	public
 	enum Tokens: Int {
-		case EOF = -1, T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, NAME = 6, 
-                 TAG_VALUE = 7
+		case EOF = -1, AT = 1, COMMA = 2, EQUALS = 3, OPEN_CURLY = 4, CLOSE_CURLY = 5, 
+                 NAME = 6, TAG_VALUE = 7
 	}
 
 	public
@@ -30,16 +30,16 @@ open class BibtexParser: Parser {
 	]
 
 	private static let _LITERAL_NAMES: [String?] = [
-		nil, "'@'", "'{'", "','", "'}'", "'='"
+		nil, "'@'", "','", "'='", "'{'", "'}'"
 	]
 	private static let _SYMBOLIC_NAMES: [String?] = [
-		nil, nil, nil, nil, nil, nil, "NAME", "TAG_VALUE"
+		nil, "AT", "COMMA", "EQUALS", "OPEN_CURLY", "CLOSE_CURLY", "NAME", "TAG_VALUE"
 	]
 	public
 	static let VOCABULARY = Vocabulary(_LITERAL_NAMES, _SYMBOLIC_NAMES)
 
 	override open
-	func getGrammarFileName() -> String { return "Bibtex.g4" }
+	func getGrammarFileName() -> String { return "BibtexParser.g4" }
 
 	override open
 	func getRuleNames() -> [String] { return BibtexParser.ruleNames }
@@ -79,13 +79,13 @@ open class BibtexParser: Parser {
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? BibtexListener {
+			if let listener = listener as? BibtexParserListener {
 				listener.enterRoot(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? BibtexListener {
+			if let listener = listener as? BibtexParserListener {
 				listener.exitRoot(self)
 			}
 		}
@@ -129,13 +129,13 @@ open class BibtexParser: Parser {
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? BibtexListener {
+			if let listener = listener as? BibtexParserListener {
 				listener.enterBibFile(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? BibtexListener {
+			if let listener = listener as? BibtexParserListener {
 				listener.exitBibFile(self)
 			}
 		}
@@ -155,7 +155,7 @@ open class BibtexParser: Parser {
 		 	_la = try _input.LA(1)
 		 	while (//closure
 		 	 { () -> Bool in
-		 	      let testSet: Bool = _la == BibtexParser.Tokens.T__0.rawValue
+		 	      let testSet: Bool = _la == BibtexParser.Tokens.AT.rawValue
 		 	      return testSet
 		 	 }()) {
 		 		setState(13)
@@ -181,8 +181,24 @@ open class BibtexParser: Parser {
 		open var entryType: Token!
 		open var citationKey: Token!
 			open
+			func AT() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.AT.rawValue, 0)
+			}
+			open
+			func OPEN_CURLY() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.OPEN_CURLY.rawValue, 0)
+			}
+			open
+			func COMMA() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.COMMA.rawValue, 0)
+			}
+			open
 			func tags() -> TagsContext? {
 				return getRuleContext(TagsContext.self, 0)
+			}
+			open
+			func CLOSE_CURLY() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.CLOSE_CURLY.rawValue, 0)
 			}
 			open
 			func NAME() -> [TerminalNode] {
@@ -198,13 +214,13 @@ open class BibtexParser: Parser {
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? BibtexListener {
+			if let listener = listener as? BibtexParserListener {
 				listener.enterEntry(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? BibtexListener {
+			if let listener = listener as? BibtexParserListener {
 				listener.exitEntry(self)
 			}
 		}
@@ -219,7 +235,7 @@ open class BibtexParser: Parser {
 		do {
 		 	try enterOuterAlt(_localctx, 1)
 		 	setState(19)
-		 	try match(BibtexParser.Tokens.T__0.rawValue)
+		 	try match(BibtexParser.Tokens.AT.rawValue)
 		 	setState(20)
 		 	try {
 		 			let assignmentValue = try match(BibtexParser.Tokens.NAME.rawValue)
@@ -227,7 +243,7 @@ open class BibtexParser: Parser {
 		 	     }()
 
 		 	setState(21)
-		 	try match(BibtexParser.Tokens.T__1.rawValue)
+		 	try match(BibtexParser.Tokens.OPEN_CURLY.rawValue)
 		 	setState(22)
 		 	try {
 		 			let assignmentValue = try match(BibtexParser.Tokens.NAME.rawValue)
@@ -235,11 +251,11 @@ open class BibtexParser: Parser {
 		 	     }()
 
 		 	setState(23)
-		 	try match(BibtexParser.Tokens.T__2.rawValue)
+		 	try match(BibtexParser.Tokens.COMMA.rawValue)
 		 	setState(24)
 		 	try tags()
 		 	setState(25)
-		 	try match(BibtexParser.Tokens.T__3.rawValue)
+		 	try match(BibtexParser.Tokens.CLOSE_CURLY.rawValue)
 
 		}
 		catch ANTLRException.recognition(let re) {
@@ -260,19 +276,27 @@ open class BibtexParser: Parser {
 			func tag(_ i: Int) -> TagContext? {
 				return getRuleContext(TagContext.self, i)
 			}
+			open
+			func COMMA() -> [TerminalNode] {
+				return getTokens(BibtexParser.Tokens.COMMA.rawValue)
+			}
+			open
+			func COMMA(_ i:Int) -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.COMMA.rawValue, i)
+			}
 		override open
 		func getRuleIndex() -> Int {
 			return BibtexParser.RULE_tags
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? BibtexListener {
+			if let listener = listener as? BibtexParserListener {
 				listener.enterTags(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? BibtexListener {
+			if let listener = listener as? BibtexParserListener {
 				listener.exitTags(self)
 			}
 		}
@@ -294,11 +318,11 @@ open class BibtexParser: Parser {
 		 	_la = try _input.LA(1)
 		 	while (//closure
 		 	 { () -> Bool in
-		 	      let testSet: Bool = _la == BibtexParser.Tokens.T__2.rawValue
+		 	      let testSet: Bool = _la == BibtexParser.Tokens.COMMA.rawValue
 		 	      return testSet
 		 	 }()) {
 		 		setState(28)
-		 		try match(BibtexParser.Tokens.T__2.rawValue)
+		 		try match(BibtexParser.Tokens.COMMA.rawValue)
 		 		setState(29)
 		 		try tag()
 
@@ -322,6 +346,10 @@ open class BibtexParser: Parser {
 		open var tagName: Token!
 		open var tagValue: Token!
 			open
+			func EQUALS() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.EQUALS.rawValue, 0)
+			}
+			open
 			func NAME() -> TerminalNode? {
 				return getToken(BibtexParser.Tokens.NAME.rawValue, 0)
 			}
@@ -335,13 +363,13 @@ open class BibtexParser: Parser {
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? BibtexListener {
+			if let listener = listener as? BibtexParserListener {
 				listener.enterTag(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
-			if let listener = listener as? BibtexListener {
+			if let listener = listener as? BibtexParserListener {
 				listener.exitTag(self)
 			}
 		}
@@ -362,7 +390,7 @@ open class BibtexParser: Parser {
 		 	     }()
 
 		 	setState(36)
-		 	try match(BibtexParser.Tokens.T__4.rawValue)
+		 	try match(BibtexParser.Tokens.EQUALS.rawValue)
 		 	setState(37)
 		 	try {
 		 			let assignmentValue = try match(BibtexParser.Tokens.TAG_VALUE.rawValue)

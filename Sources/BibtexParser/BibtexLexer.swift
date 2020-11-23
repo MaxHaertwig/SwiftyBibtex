@@ -1,4 +1,4 @@
-// Generated from Bibtex.g4 by ANTLR 4.8
+// Generated from BibtexLexer.g4 by ANTLR 4.8
 import Antlr4
 
 open class BibtexLexer: Lexer {
@@ -15,7 +15,8 @@ open class BibtexLexer: Lexer {
 	internal static let _sharedContextCache = PredictionContextCache()
 
 	public
-	static let T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, NAME=6, TAG_VALUE=7
+	static let AT=1, COMMA=2, EQUALS=3, OPEN_CURLY=4, CLOSE_CURLY=5, NAME=6, 
+            TAG_VALUE=7
 
 	public
 	static let channelNames: [String] = [
@@ -29,14 +30,14 @@ open class BibtexLexer: Lexer {
 
 	public
 	static let ruleNames: [String] = [
-		"T__0", "T__1", "T__2", "T__3", "T__4", "NAME", "TAG_VALUE"
+		"AT", "COMMA", "EQUALS", "OPEN_CURLY", "CLOSE_CURLY", "NAME", "TAG_VALUE"
 	]
 
 	private static let _LITERAL_NAMES: [String?] = [
-		nil, "'@'", "'{'", "','", "'}'", "'='"
+		nil, "'@'", "','", "'='", "'{'", "'}'"
 	]
 	private static let _SYMBOLIC_NAMES: [String?] = [
-		nil, nil, nil, nil, nil, nil, "NAME", "TAG_VALUE"
+		nil, "AT", "COMMA", "EQUALS", "OPEN_CURLY", "CLOSE_CURLY", "NAME", "TAG_VALUE"
 	]
 	public
 	static let VOCABULARY = Vocabulary(_LITERAL_NAMES, _SYMBOLIC_NAMES)
@@ -55,7 +56,7 @@ open class BibtexLexer: Lexer {
 	}
 
 	override open
-	func getGrammarFileName() -> String { return "Bibtex.g4" }
+	func getGrammarFileName() -> String { return "BibtexLexer.g4" }
 
 	override open
 	func getRuleNames() -> [String] { return BibtexLexer.ruleNames }

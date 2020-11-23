@@ -1,6 +1,6 @@
 import BibtexParser
 
-internal final class CustomBibtexListener : BibtexBaseListener {
+internal final class CustomBibtexListener : BibtexParserBaseListener {
     private(set) var entries = [Entry]()
     
     private var entryType = ""

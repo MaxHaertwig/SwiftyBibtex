@@ -1,14 +1,14 @@
-// Generated from Bibtex.g4 by ANTLR 4.8
+// Generated from BibtexParser.g4 by ANTLR 4.8
 
 import Antlr4
 
 
 /**
- * This class provides an empty implementation of {@link BibtexListener},
+ * This class provides an empty implementation of {@link BibtexParserListener},
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
-open class BibtexBaseListener: BibtexListener {
+open class BibtexParserBaseListener: BibtexParserListener {
      public init() { }
 	/**
 	 * {@inheritDoc}

@@ -1,11 +1,11 @@
-// Generated from Bibtex.g4 by ANTLR 4.8
+// Generated from BibtexParser.g4 by ANTLR 4.8
 import Antlr4
 
 /**
  * This interface defines a complete listener for a parse tree produced by
  * {@link BibtexParser}.
  */
-public protocol BibtexListener: ParseTreeListener {
+public protocol BibtexParserListener: ParseTreeListener {
 	/**
 	 * Enter a parse tree produced by {@link BibtexParser#root}.
 	 - Parameters:
