@@ -1,3 +1,16 @@
+import Antlr4
+import BibtexParser
+
 struct SwiftyBibtex {
-    var text = "Hello, World!"
+    static func parse(_ input: String) throws -> [Entry] {
+        let inputStream = ANTLRInputStream(input)
+        let lexer = BibtexLexer(inputStream)
+        let tokenStream = CommonTokenStream(lexer)
+        let parser = try BibtexParser(tokenStream)
+        let expressionContext = try parser.root()
+        
+        let listener = CustomBibtexListener()
+        try ParseTreeWalker().walk(listener, expressionContext)
+        return listener.entries
+    }
 }

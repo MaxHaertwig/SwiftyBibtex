@@ -2,14 +2,31 @@ import XCTest
 @testable import SwiftyBibtex
 
 final class SwiftyBibtexTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(SwiftyBibtex().text, "Hello, World!")
+    func testSimpleEntry() {
+        let input = """
+        @Entry{citationKey,
+            tagName = {tagValue}
+        }
+        """
+        let entries = try! SwiftyBibtex.parse(input)
+        XCTAssertEqual(entries.count, 1)
+        XCTAssertEqual(entries[0], Entry(type: "Entry", citationKey: "citationKey", tags: ["tagName": "tagValue"]))
+    }
+    
+    func testEntryWithTwoTags() {
+        let input = """
+        @Entry{citationKey,
+            tagName = {tagValue},
+            tagName2 = \"tagValue2\"
+        }
+        """
+        let entries = try! SwiftyBibtex.parse(input)
+        XCTAssertEqual(entries.count, 1)
+        XCTAssertEqual(entries[0], Entry(type: "Entry", citationKey: "citationKey", tags: ["tagName": "tagValue", "tagName2": "tagValue2"]))
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testSimpleEntry", testSimpleEntry),
+        ("testEntryWithTwoTags", testEntryWithTwoTags)
     ]
 }
