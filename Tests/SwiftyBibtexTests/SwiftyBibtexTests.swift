@@ -24,6 +24,32 @@ final class SwiftyBibtexTests: XCTestCase {
         XCTAssertEqual(entries.count, 1)
         XCTAssertEqual(entries[0], Entry(type: "Entry", citationKey: "citationKey", tags: ["tagName": "tagValue", "tagName2": "tagValue2"]))
     }
+    
+    func testTagValues() {
+        for tagValue in ["abc", " abc    ", " { abc   }   ", " { abc {   def}   }   "] {
+            testCurlyTagValue(tagValue)
+            testQuotedTagValue(tagValue)
+        }
+    }
+    
+    private func testCurlyTagValue(_ tagValue: String) {
+        testTagValue("{\(tagValue)}", expected: tagValue)
+    }
+    
+    private func testQuotedTagValue(_ tagValue: String) {
+        testTagValue("\"\(tagValue)\"", expected: tagValue)
+    }
+    
+    private func testTagValue(_ tagValue: String, expected: String) {
+        let input = """
+        @Entry{citationKey,
+            tagName = \(tagValue)
+        }
+        """
+        let entries = try! SwiftyBibtex.parse(input)
+        XCTAssertEqual(entries.count, 1)
+        XCTAssertEqual(entries[0].tags, ["tagname": expected])
+    }
 
     static var allTests = [
         ("testSimpleEntry", testSimpleEntry),

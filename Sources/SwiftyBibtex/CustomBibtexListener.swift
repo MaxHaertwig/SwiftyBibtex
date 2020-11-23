@@ -17,8 +17,8 @@ internal final class CustomBibtexListener : BibtexParserBaseListener {
     }
 
     override func enterTag(_ ctx: BibtexParser.TagContext) {
-        if let tagName = ctx.tagName.getText(), let tagValue = ctx.tagValue.getText() {
-            tags[tagName] = String(tagValue.dropFirst().dropLast())
+        if let tagName = ctx.tagName.getText(), let tagValue = ctx.curlyTagValue()?.getText() ?? ctx.quotedTagValue.getText() {
+            tags[tagName] = tagValue
         }
     }
 

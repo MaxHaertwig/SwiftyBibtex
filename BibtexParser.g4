@@ -10,4 +10,8 @@ entry : AT entryType=NAME OPEN_CURLY citationKey=NAME COMMA tags CLOSE_CURLY ;
  
 tags : tag ( COMMA tag )* ;
  
-tag : tagName=NAME EQUALS tagValue=TAG_VALUE ;
+tag : tagName=NAME TAG_VALUE_CURLY_START curlyTagValue TAG_VALUE_CLOSE_CURLY 
+    | tagName=NAME TAG_VALUE_QUOTE_START quotedTagValue=TAG_VALUE_QUOTE TAG_VALUE_CLOSE_QUOTE ;
+
+curlyTagValue : TAG_VALUE_CURLY
+              | curlyTagValue TAG_VALUE_OPEN_CURLY curlyTagValue TAG_VALUE_CLOSE_CURLY curlyTagValue ;
