@@ -3,8 +3,8 @@ import XCTest
 @testable import SwiftyBibtex
 
 final class BibtexPublicationListenerTests: XCTestCase {
-    private static func parse(_ input: String) -> [Publication] {
-        let listener = BibtexPublicationListener()
+    private static func parse(_ input: String, stringDefinitions: [String: String] = [:]) -> [Publication] {
+        let listener = BibtexPublicationListener(stringDefinitions: stringDefinitions)
         let bibtexParser = SwiftyBibtex.parser(for: input)
         try! ParseTreeWalker().walk(listener, try! bibtexParser.root())
         return listener.publications
@@ -49,6 +49,17 @@ final class BibtexPublicationListenerTests: XCTestCase {
         testTagValue("\"a\" # \"  b \"   # \" c\"", expected: "a  b  c")
     }
     
+    func testFillInStringDefinition() {
+        let input = """
+        @Article{citationKey,
+            tagName = foo # "Baz"
+        }
+        """
+        let publications = Self.parse(input, stringDefinitions: ["foo": "bar"])
+        XCTAssertEqual(publications.count, 1)
+        XCTAssertEqual(publications[0], Publication(type: "Article", citationKey: "citationKey", tags: ["tagName": "barBaz"]))
+    }
+    
     private func testCurlyTagValue(_ tagValue: String) {
         testTagValue("{\(tagValue)}", expected: tagValue)
     }
@@ -72,6 +83,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         ("testSimplePublication", testSimplePublication),
         ("testPublicationWithTwoTags", testPublicationWithTwoTags),
         ("testTagValues", testTagValues),
-        ("testTagValueConcat", testTagValueConcat)
+        ("testTagValueConcat", testTagValueConcat),
+        ("testFillInStringDefinition", testFillInStringDefinition)
     ]
 }

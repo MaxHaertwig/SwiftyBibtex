@@ -93,6 +93,19 @@ open class BibtexParserBaseListener: BibtexParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	open func enterTagString(_ ctx: BibtexParser.TagStringContext) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	open func exitTagString(_ ctx: BibtexParser.TagStringContext) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	open func enterCurlyTagValue(_ ctx: BibtexParser.CurlyTagValueContext) { }
 	/**
 	 * {@inheritDoc}

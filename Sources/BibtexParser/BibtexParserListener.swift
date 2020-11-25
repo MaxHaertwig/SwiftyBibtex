@@ -79,6 +79,18 @@ public protocol BibtexParserListener: ParseTreeListener {
 	 */
 	func exitTag(_ ctx: BibtexParser.TagContext)
 	/**
+	 * Enter a parse tree produced by {@link BibtexParser#tagString}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func enterTagString(_ ctx: BibtexParser.TagStringContext)
+	/**
+	 * Exit a parse tree produced by {@link BibtexParser#tagString}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func exitTagString(_ ctx: BibtexParser.TagStringContext)
+	/**
 	 * Enter a parse tree produced by {@link BibtexParser#curlyTagValue}.
 	 - Parameters:
 	   - ctx: the parse tree

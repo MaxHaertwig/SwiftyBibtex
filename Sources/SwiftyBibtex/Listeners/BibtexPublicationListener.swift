@@ -3,7 +3,12 @@ import BibtexParser
 internal final class BibtexPublicationListener : BibtexParserBaseListener {
     private(set) var publications = [Publication]()
     
+    private var stringDefinitions: [String: String]
     private var tags = [String: String]()
+    
+    init(stringDefinitions: [String: String] = [:]) {
+        self.stringDefinitions = stringDefinitions
+    }
 
     override func enterTags(_ ctx: BibtexParser.TagsContext) {
         tags = [:]
@@ -14,7 +19,14 @@ internal final class BibtexPublicationListener : BibtexParserBaseListener {
             if let tagValue = ctx.curlyTagValue()?.getText() {
                 tags[tagName] = tagValue
             } else {
-                tags[tagName] = ctx.STRING_LITERAL().map { $0.getText().dropFirst().dropLast() }.joined()
+                tags[tagName] = ctx.tagString().map { $0.getText() }.reduce("") { (prefix: String, string: String) in
+                    if string.hasPrefix("\"") {
+                        return prefix + string.dropFirst().dropLast()
+                    } else if let replacement = stringDefinitions[string] {
+                        return prefix + replacement
+                    }
+                    return prefix
+                }
             }
         }
     }
