@@ -2,27 +2,27 @@ import XCTest
 @testable import SwiftyBibtex
 
 final class SwiftyBibtexTests: XCTestCase {
-    func testSimpleEntry() {
+    func testSimplePublication() {
         let input = """
-        @Entry{citationKey,
+        @Article{citationKey,
             tagName = {tagValue}
         }
         """
-        let entries = try! SwiftyBibtex.parse(input)
-        XCTAssertEqual(entries.count, 1)
-        XCTAssertEqual(entries[0], Entry(type: "Entry", citationKey: "citationKey", tags: ["tagName": "tagValue"]))
+        let publications = try! SwiftyBibtex.parse(input)
+        XCTAssertEqual(publications.count, 1)
+        XCTAssertEqual(publications[0], Publication(type: "Article", citationKey: "citationKey", tags: ["tagName": "tagValue"]))
     }
     
-    func testEntryWithTwoTags() {
+    func testPublicationWithTwoTags() {
         let input = """
-        @Entry{citationKey,
+        @Article{citationKey,
             tagName = {tagValue},
             tagName2 = \"tagValue2\"
         }
         """
-        let entries = try! SwiftyBibtex.parse(input)
-        XCTAssertEqual(entries.count, 1)
-        XCTAssertEqual(entries[0], Entry(type: "Entry", citationKey: "citationKey", tags: ["tagName": "tagValue", "tagName2": "tagValue2"]))
+        let publications = try! SwiftyBibtex.parse(input)
+        XCTAssertEqual(publications.count, 1)
+        XCTAssertEqual(publications[0], Publication(type: "Article", citationKey: "citationKey", tags: ["tagName": "tagValue", "tagName2": "tagValue2"]))
     }
     
     func testTagValues() {
@@ -47,17 +47,17 @@ final class SwiftyBibtexTests: XCTestCase {
     
     private func testTagValue(_ tagValue: String, expected: String) {
         let input = """
-        @Entry{citationKey,
+        @Article{citationKey,
             tagName = \(tagValue)
         }
         """
-        let entries = try! SwiftyBibtex.parse(input)
-        XCTAssertEqual(entries.count, 1)
-        XCTAssertEqual(entries[0].tags, ["tagname": expected])
+        let publications = try! SwiftyBibtex.parse(input)
+        XCTAssertEqual(publications.count, 1)
+        XCTAssertEqual(publications[0].tags, ["tagname": expected])
     }
 
     static var allTests = [
-        ("testSimpleEntry", testSimpleEntry),
-        ("testEntryWithTwoTags", testEntryWithTwoTags)
+        ("testSimplePublication", testSimplePublication),
+        ("testPublicationWithTwoTags", testPublicationWithTwoTags)
     ]
 }

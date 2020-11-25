@@ -1,4 +1,4 @@
-public struct Entry: Equatable {
+public struct Publication: Equatable {
     let type: String
     let citationKey: String
     let tags: [String: String]

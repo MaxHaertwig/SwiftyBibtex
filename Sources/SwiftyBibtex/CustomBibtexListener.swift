@@ -1,16 +1,9 @@
 import BibtexParser
 
 internal final class CustomBibtexListener : BibtexParserBaseListener {
-    private(set) var entries = [Entry]()
+    private(set) var publications = [Publication]()
     
-    private var entryType = ""
-    private var citationKey = ""
     private var tags = [String: String]()
-    
-    override func enterEntry(_ ctx: BibtexParser.EntryContext) {
-        entryType = ctx.entryType.getText()!
-        citationKey = ctx.citationKey.getText()!
-    }
 
     override func enterTags(_ ctx: BibtexParser.TagsContext) {
         tags = [:]
@@ -25,8 +18,10 @@ internal final class CustomBibtexListener : BibtexParserBaseListener {
             }
         }
     }
-
-    override func exitEntry(_ ctx: BibtexParser.EntryContext) {
-        entries.append(Entry(type: entryType, citationKey: citationKey, tags: tags))
+    
+    override func exitPublication(_ ctx: BibtexParser.PublicationContext) {
+        if let publicationType = ctx.publicationType.getText(), let citationKey = ctx.citationKey.getText() {
+            publications.append(Publication(type: publicationType, citationKey: citationKey, tags: tags))
+        }
     }
 }

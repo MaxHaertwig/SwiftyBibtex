@@ -31,17 +31,17 @@ public protocol BibtexParserListener: ParseTreeListener {
 	 */
 	func exitBibFile(_ ctx: BibtexParser.BibFileContext)
 	/**
-	 * Enter a parse tree produced by {@link BibtexParser#entry}.
+	 * Enter a parse tree produced by {@link BibtexParser#publication}.
 	 - Parameters:
 	   - ctx: the parse tree
 	 */
-	func enterEntry(_ ctx: BibtexParser.EntryContext)
+	func enterPublication(_ ctx: BibtexParser.PublicationContext)
 	/**
-	 * Exit a parse tree produced by {@link BibtexParser#entry}.
+	 * Exit a parse tree produced by {@link BibtexParser#publication}.
 	 - Parameters:
 	   - ctx: the parse tree
 	 */
-	func exitEntry(_ ctx: BibtexParser.EntryContext)
+	func exitPublication(_ ctx: BibtexParser.PublicationContext)
 	/**
 	 * Enter a parse tree produced by {@link BibtexParser#tags}.
 	 - Parameters:

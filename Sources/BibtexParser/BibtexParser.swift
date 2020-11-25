@@ -23,12 +23,12 @@ open class BibtexParser: Parser {
 	}
 
 	public
-	static let RULE_root = 0, RULE_bibFile = 1, RULE_entry = 2, RULE_tags = 3, 
+	static let RULE_root = 0, RULE_bibFile = 1, RULE_publication = 2, RULE_tags = 3, 
             RULE_tag = 4, RULE_curlyTagValue = 5
 
 	public
 	static let ruleNames: [String] = [
-		"root", "bibFile", "entry", "tags", "tag", "curlyTagValue"
+		"root", "bibFile", "publication", "tags", "tag", "curlyTagValue"
 	]
 
 	private static let _LITERAL_NAMES: [String?] = [
@@ -120,12 +120,12 @@ open class BibtexParser: Parser {
 
 	public class BibFileContext: ParserRuleContext {
 			open
-			func entry() -> [EntryContext] {
-				return getRuleContexts(EntryContext.self)
+			func publication() -> [PublicationContext] {
+				return getRuleContexts(PublicationContext.self)
 			}
 			open
-			func entry(_ i: Int) -> EntryContext? {
-				return getRuleContext(EntryContext.self, i)
+			func publication(_ i: Int) -> PublicationContext? {
+				return getRuleContext(PublicationContext.self, i)
 			}
 		override open
 		func getRuleIndex() -> Int {
@@ -163,7 +163,7 @@ open class BibtexParser: Parser {
 		 	      return testSet
 		 	 }()) {
 		 		setState(15)
-		 		try entry()
+		 		try publication()
 
 
 		 		setState(20)
@@ -181,8 +181,8 @@ open class BibtexParser: Parser {
 		return _localctx
 	}
 
-	public class EntryContext: ParserRuleContext {
-		open var entryType: Token!
+	public class PublicationContext: ParserRuleContext {
+		open var publicationType: Token!
 		open var citationKey: Token!
 			open
 			func AT() -> TerminalNode? {
@@ -214,25 +214,25 @@ open class BibtexParser: Parser {
 			}
 		override open
 		func getRuleIndex() -> Int {
-			return BibtexParser.RULE_entry
+			return BibtexParser.RULE_publication
 		}
 		override open
 		func enterRule(_ listener: ParseTreeListener) {
 			if let listener = listener as? BibtexParserListener {
-				listener.enterEntry(self)
+				listener.enterPublication(self)
 			}
 		}
 		override open
 		func exitRule(_ listener: ParseTreeListener) {
 			if let listener = listener as? BibtexParserListener {
-				listener.exitEntry(self)
+				listener.exitPublication(self)
 			}
 		}
 	}
 	@discardableResult
-	 open func entry() throws -> EntryContext {
-		var _localctx: EntryContext = EntryContext(_ctx, getState())
-		try enterRule(_localctx, 4, BibtexParser.RULE_entry)
+	 open func publication() throws -> PublicationContext {
+		var _localctx: PublicationContext = PublicationContext(_ctx, getState())
+		try enterRule(_localctx, 4, BibtexParser.RULE_publication)
 		defer {
 	    		try! exitRule()
 	    }
@@ -243,7 +243,7 @@ open class BibtexParser: Parser {
 		 	setState(22)
 		 	try {
 		 			let assignmentValue = try match(BibtexParser.Tokens.NAME.rawValue)
-		 			_localctx.castdown(EntryContext.self).entryType = assignmentValue
+		 			_localctx.castdown(PublicationContext.self).publicationType = assignmentValue
 		 	     }()
 
 		 	setState(23)
@@ -251,7 +251,7 @@ open class BibtexParser: Parser {
 		 	setState(24)
 		 	try {
 		 			let assignmentValue = try match(BibtexParser.Tokens.NAME.rawValue)
-		 			_localctx.castdown(EntryContext.self).citationKey = assignmentValue
+		 			_localctx.castdown(PublicationContext.self).citationKey = assignmentValue
 		 	     }()
 
 		 	setState(25)

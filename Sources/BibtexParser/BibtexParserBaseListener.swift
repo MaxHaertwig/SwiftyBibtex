@@ -41,13 +41,13 @@ open class BibtexParserBaseListener: BibtexParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	open func enterEntry(_ ctx: BibtexParser.EntryContext) { }
+	open func enterPublication(_ ctx: BibtexParser.PublicationContext) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	open func exitEntry(_ ctx: BibtexParser.EntryContext) { }
+	open func exitPublication(_ ctx: BibtexParser.PublicationContext) { }
 
 	/**
 	 * {@inheritDoc}
