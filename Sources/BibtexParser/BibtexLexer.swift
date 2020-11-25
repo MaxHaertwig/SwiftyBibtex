@@ -15,12 +15,13 @@ open class BibtexLexer: Lexer {
 	internal static let _sharedContextCache = PredictionContextCache()
 
 	public
-	static let TAG_VALUE_CURLY_START=1, AT=2, COMMA=3, EQUALS=4, HASH=5, OPEN_CURLY=6, 
-            CLOSE_CURLY=7, STRING=8, NAME=9, STRING_LITERAL=10, WS=11, TAG_VALUE_OPEN_CURLY=12, 
-            TAG_VALUE_CLOSE_CURLY=13, TAG_VALUE_CURLY=14
+	static let FIELD_VALUE_CURLY_START=1, AT=2, COMMA=3, EQUALS=4, HASH=5, 
+            OPEN_CURLY=6, CLOSE_CURLY=7, STRING=8, NAME=9, STRING_LITERAL=10, 
+            WS=11, FIELD_VALUE_OPEN_CURLY=12, FIELD_VALUE_CLOSE_CURLY=13, 
+            FIELD_VALUE_CURLY=14
 
 	public
-	static let TAG_VALUE_CURLY_MODE=1
+	static let FIELD_VALUE_CURLY_MODE=1
 	public
 	static let channelNames: [String] = [
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
@@ -28,23 +29,23 @@ open class BibtexLexer: Lexer {
 
 	public
 	static let modeNames: [String] = [
-		"DEFAULT_MODE", "TAG_VALUE_CURLY_MODE"
+		"DEFAULT_MODE", "FIELD_VALUE_CURLY_MODE"
 	]
 
 	public
 	static let ruleNames: [String] = [
-		"TAG_VALUE_CURLY_START", "AT", "COMMA", "EQUALS", "HASH", "OPEN_CURLY", 
-		"CLOSE_CURLY", "STRING", "NAME", "STRING_LITERAL", "WS", "TAG_VALUE_OPEN_CURLY", 
-		"TAG_VALUE_CLOSE_CURLY", "TAG_VALUE_CURLY"
+		"FIELD_VALUE_CURLY_START", "AT", "COMMA", "EQUALS", "HASH", "OPEN_CURLY", 
+		"CLOSE_CURLY", "STRING", "NAME", "STRING_LITERAL", "WS", "FIELD_VALUE_OPEN_CURLY", 
+		"FIELD_VALUE_CLOSE_CURLY", "FIELD_VALUE_CURLY"
 	]
 
 	private static let _LITERAL_NAMES: [String?] = [
 		nil, nil, "'@'", "','", "'='", "'#'"
 	]
 	private static let _SYMBOLIC_NAMES: [String?] = [
-		nil, "TAG_VALUE_CURLY_START", "AT", "COMMA", "EQUALS", "HASH", "OPEN_CURLY", 
-		"CLOSE_CURLY", "STRING", "NAME", "STRING_LITERAL", "WS", "TAG_VALUE_OPEN_CURLY", 
-		"TAG_VALUE_CLOSE_CURLY", "TAG_VALUE_CURLY"
+		nil, "FIELD_VALUE_CURLY_START", "AT", "COMMA", "EQUALS", "HASH", "OPEN_CURLY", 
+		"CLOSE_CURLY", "STRING", "NAME", "STRING_LITERAL", "WS", "FIELD_VALUE_OPEN_CURLY", 
+		"FIELD_VALUE_CLOSE_CURLY", "FIELD_VALUE_CURLY"
 	]
 	public
 	static let VOCABULARY = Vocabulary(_LITERAL_NAMES, _SYMBOLIC_NAMES)

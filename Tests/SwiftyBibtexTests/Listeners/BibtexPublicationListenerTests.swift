@@ -17,73 +17,73 @@ final class BibtexPublicationListenerTests: XCTestCase {
     func testSimplePublication() {
         let input = """
         @Article{citationKey,
-            tagName = {tagValue}
+            fieldName = {fieldValue}
         }
         """
         let publications = Self.parse(input)
         XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0], Publication(type: "Article", citationKey: "citationKey", tags: ["tagName": "tagValue"]))
+        XCTAssertEqual(publications[0], Publication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "fieldValue"]))
     }
     
-    func testPublicationWithTwoTags() {
+    func testPublicationWithTwoFields() {
         let input = """
         @Article{citationKey,
-            tagName = {tagValue},
-            tagName2 = \"tagValue2\"
+            fieldName = {fieldValue},
+            fieldName2 = \"fieldValue2\"
         }
         """
         let publications = Self.parse(input)
         XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0], Publication(type: "Article", citationKey: "citationKey", tags: ["tagName": "tagValue", "tagName2": "tagValue2"]))
+        XCTAssertEqual(publications[0], Publication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "fieldValue", "fieldName2": "fieldValue2"]))
     }
     
-    func testTagValues() {
-        for tagValue in ["abc", " abc    ", " { abc   }   ", " { abc {   def}   }   "] {
-            testCurlyTagValue(tagValue)
-            testQuotedTagValue(tagValue)
+    func testFieldValues() {
+        for fieldValue in ["abc", " abc    ", " { abc   }   ", " { abc {   def}   }   "] {
+            testCurlyFieldValue(fieldValue)
+            testQuotedFieldValue(fieldValue)
         }
-        testCurlyTagValue(" \"ab \"  { \"\"} c")
+        testCurlyFieldValue(" \"ab \"  { \"\"} c")
     }
     
-    func testTagValueConcat() {
-        testTagValue("\"a\" # \"  b \"   # \" c\"", expected: "a  b  c")
+    func testFieldValueConcat() {
+        testFieldValue("\"a\" # \"  b \"   # \" c\"", expected: "a  b  c")
     }
     
     func testFillInStringDefinition() {
         let input = """
         @Article{citationKey,
-            tagName = foo # "Baz"
+            fieldName = foo # "Baz"
         }
         """
         let publications = Self.parse(input, stringDefinitions: ["foo": "bar"])
         XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0], Publication(type: "Article", citationKey: "citationKey", tags: ["tagName": "barBaz"]))
+        XCTAssertEqual(publications[0], Publication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "barBaz"]))
     }
     
-    private func testCurlyTagValue(_ tagValue: String) {
-        testTagValue("{\(tagValue)}", expected: tagValue)
+    private func testCurlyFieldValue(_ fieldValue: String) {
+        testFieldValue("{\(fieldValue)}", expected: fieldValue)
     }
     
-    private func testQuotedTagValue(_ tagValue: String) {
-        testTagValue("\"\(tagValue)\"", expected: tagValue)
+    private func testQuotedFieldValue(_ fieldValue: String) {
+        testFieldValue("\"\(fieldValue)\"", expected: fieldValue)
     }
     
-    private func testTagValue(_ tagValue: String, expected: String) {
+    private func testFieldValue(_ fieldValue: String, expected: String) {
         let input = """
         @Article{citationKey,
-            tagName = \(tagValue)
+            fieldName = \(fieldValue)
         }
         """
         let publications = Self.parse(input)
         XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0].tags, ["tagname": expected])
+        XCTAssertEqual(publications[0].fields, ["fieldname": expected])
     }
 
     static var allTests = [
         ("testSimplePublication", testSimplePublication),
-        ("testPublicationWithTwoTags", testPublicationWithTwoTags),
-        ("testTagValues", testTagValues),
-        ("testTagValueConcat", testTagValueConcat),
+        ("testPublicationWithTwoFields", testPublicationWithTwoFields),
+        ("testFieldValues", testFieldValues),
+        ("testFieldValueConcat", testFieldValueConcat),
         ("testFillInStringDefinition", testFillInStringDefinition)
     ]
 }

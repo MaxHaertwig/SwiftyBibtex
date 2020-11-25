@@ -8,14 +8,14 @@ bibFile : ( string | publication )* ;
  
 string : AT STRING OPEN_CURLY stringName=NAME EQUALS STRING_LITERAL CLOSE_CURLY ;
 
-publication : AT publicationType=NAME OPEN_CURLY citationKey=NAME COMMA tags CLOSE_CURLY ;
+publication : AT publicationType=NAME OPEN_CURLY citationKey=NAME COMMA fields CLOSE_CURLY ;
  
-tags : tag ( COMMA tag )* ;
+fields : field ( COMMA field )* ;
  
-tag : tagName=NAME TAG_VALUE_CURLY_START curlyTagValue TAG_VALUE_CLOSE_CURLY 
-    | tagName=NAME EQUALS tagString ( HASH tagString )* ;
+field : fieldName=NAME FIELD_VALUE_CURLY_START curlyFieldValue FIELD_VALUE_CLOSE_CURLY 
+    | fieldName=NAME EQUALS fieldString ( HASH fieldString )* ;
 
-tagString : NAME | STRING_LITERAL ;
+fieldString : NAME | STRING_LITERAL ;
 
-curlyTagValue : TAG_VALUE_CURLY
-              | curlyTagValue TAG_VALUE_OPEN_CURLY curlyTagValue TAG_VALUE_CLOSE_CURLY curlyTagValue ;
+curlyFieldValue : FIELD_VALUE_CURLY
+                | curlyFieldValue FIELD_VALUE_OPEN_CURLY curlyFieldValue FIELD_VALUE_CLOSE_CURLY curlyFieldValue ;

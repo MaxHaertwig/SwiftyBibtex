@@ -9,15 +9,15 @@ final class SwiftyBibtexTests: XCTestCase {
     func testComplexExample() {
         let input = """
         @Article{citationKey,
-            tag1 = {a},
-            tag2 = {b {b} b},
-            tag3 = "c" # foo
+            field1 = {a},
+            field2 = {b {b} b},
+            field3 = "c" # foo
         }
         @String{foo = "c"}
         """
         let publications = try! SwiftyBibtex.parse(input)
         XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0], Publication(type: "Article", citationKey: "citationKey", tags: ["tag1": "a", "tag2": "b {b} b", "tag3": "cc"]))
+        XCTAssertEqual(publications[0], Publication(type: "Article", citationKey: "citationKey", fields: ["field1": "a", "field2": "b {b} b", "field3": "cc"]))
     }
     
     static var allTests = [

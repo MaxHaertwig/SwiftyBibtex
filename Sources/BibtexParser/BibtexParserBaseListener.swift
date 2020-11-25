@@ -67,52 +67,52 @@ open class BibtexParserBaseListener: BibtexParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	open func enterTags(_ ctx: BibtexParser.TagsContext) { }
+	open func enterFields(_ ctx: BibtexParser.FieldsContext) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	open func exitTags(_ ctx: BibtexParser.TagsContext) { }
+	open func exitFields(_ ctx: BibtexParser.FieldsContext) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	open func enterTag(_ ctx: BibtexParser.TagContext) { }
+	open func enterField(_ ctx: BibtexParser.FieldContext) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	open func exitTag(_ ctx: BibtexParser.TagContext) { }
+	open func exitField(_ ctx: BibtexParser.FieldContext) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	open func enterTagString(_ ctx: BibtexParser.TagStringContext) { }
+	open func enterFieldString(_ ctx: BibtexParser.FieldStringContext) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	open func exitTagString(_ ctx: BibtexParser.TagStringContext) { }
+	open func exitFieldString(_ ctx: BibtexParser.FieldStringContext) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	open func enterCurlyTagValue(_ ctx: BibtexParser.CurlyTagValueContext) { }
+	open func enterCurlyFieldValue(_ ctx: BibtexParser.CurlyFieldValueContext) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	open func exitCurlyTagValue(_ ctx: BibtexParser.CurlyTagValueContext) { }
+	open func exitCurlyFieldValue(_ ctx: BibtexParser.CurlyFieldValueContext) { }
 
 	/**
 	 * {@inheritDoc}

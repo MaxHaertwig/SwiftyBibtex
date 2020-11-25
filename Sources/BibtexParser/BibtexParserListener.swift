@@ -55,51 +55,51 @@ public protocol BibtexParserListener: ParseTreeListener {
 	 */
 	func exitPublication(_ ctx: BibtexParser.PublicationContext)
 	/**
-	 * Enter a parse tree produced by {@link BibtexParser#tags}.
+	 * Enter a parse tree produced by {@link BibtexParser#fields}.
 	 - Parameters:
 	   - ctx: the parse tree
 	 */
-	func enterTags(_ ctx: BibtexParser.TagsContext)
+	func enterFields(_ ctx: BibtexParser.FieldsContext)
 	/**
-	 * Exit a parse tree produced by {@link BibtexParser#tags}.
+	 * Exit a parse tree produced by {@link BibtexParser#fields}.
 	 - Parameters:
 	   - ctx: the parse tree
 	 */
-	func exitTags(_ ctx: BibtexParser.TagsContext)
+	func exitFields(_ ctx: BibtexParser.FieldsContext)
 	/**
-	 * Enter a parse tree produced by {@link BibtexParser#tag}.
+	 * Enter a parse tree produced by {@link BibtexParser#field}.
 	 - Parameters:
 	   - ctx: the parse tree
 	 */
-	func enterTag(_ ctx: BibtexParser.TagContext)
+	func enterField(_ ctx: BibtexParser.FieldContext)
 	/**
-	 * Exit a parse tree produced by {@link BibtexParser#tag}.
+	 * Exit a parse tree produced by {@link BibtexParser#field}.
 	 - Parameters:
 	   - ctx: the parse tree
 	 */
-	func exitTag(_ ctx: BibtexParser.TagContext)
+	func exitField(_ ctx: BibtexParser.FieldContext)
 	/**
-	 * Enter a parse tree produced by {@link BibtexParser#tagString}.
+	 * Enter a parse tree produced by {@link BibtexParser#fieldString}.
 	 - Parameters:
 	   - ctx: the parse tree
 	 */
-	func enterTagString(_ ctx: BibtexParser.TagStringContext)
+	func enterFieldString(_ ctx: BibtexParser.FieldStringContext)
 	/**
-	 * Exit a parse tree produced by {@link BibtexParser#tagString}.
+	 * Exit a parse tree produced by {@link BibtexParser#fieldString}.
 	 - Parameters:
 	   - ctx: the parse tree
 	 */
-	func exitTagString(_ ctx: BibtexParser.TagStringContext)
+	func exitFieldString(_ ctx: BibtexParser.FieldStringContext)
 	/**
-	 * Enter a parse tree produced by {@link BibtexParser#curlyTagValue}.
+	 * Enter a parse tree produced by {@link BibtexParser#curlyFieldValue}.
 	 - Parameters:
 	   - ctx: the parse tree
 	 */
-	func enterCurlyTagValue(_ ctx: BibtexParser.CurlyTagValueContext)
+	func enterCurlyFieldValue(_ ctx: BibtexParser.CurlyFieldValueContext)
 	/**
-	 * Exit a parse tree produced by {@link BibtexParser#curlyTagValue}.
+	 * Exit a parse tree produced by {@link BibtexParser#curlyFieldValue}.
 	 - Parameters:
 	   - ctx: the parse tree
 	 */
-	func exitCurlyTagValue(_ ctx: BibtexParser.CurlyTagValueContext)
+	func exitCurlyFieldValue(_ ctx: BibtexParser.CurlyFieldValueContext)
 }
