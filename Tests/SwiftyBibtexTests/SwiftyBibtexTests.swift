@@ -30,6 +30,7 @@ final class SwiftyBibtexTests: XCTestCase {
             testCurlyTagValue(tagValue)
             testQuotedTagValue(tagValue)
         }
+        testCurlyTagValue(" \"ab \"  { \"\"} c")
     }
     
     func testTagValueConcat() {

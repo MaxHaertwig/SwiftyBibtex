@@ -21,7 +21,7 @@ internal final class CustomBibtexListener : BibtexParserBaseListener {
             if let tagValue = ctx.curlyTagValue()?.getText() {
                 tags[tagName] = tagValue
             } else {
-                tags[tagName] = ctx.TAG_VALUE_QUOTE().map { $0.getText() }.joined()
+                tags[tagName] = ctx.STRING_LITERAL().map { $0.getText().dropFirst().dropLast() }.joined()
             }
         }
     }

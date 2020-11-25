@@ -16,10 +16,10 @@ open class BibtexParser: Parser {
 
 	public
 	enum Tokens: Int {
-		case EOF = -1, TAG_VALUE_CURLY_START = 1, TAG_VALUE_QUOTE_START = 2, TAG_VALUE_CONCAT_START = 3, 
-                 AT = 4, COMMA = 5, OPEN_CURLY = 6, CLOSE_CURLY = 7, NAME = 8, 
-                 WHITESPACE = 9, TAG_VALUE_OPEN_CURLY = 10, TAG_VALUE_CLOSE_CURLY = 11, 
-                 TAG_VALUE_CURLY = 12, TAG_VALUE_CLOSE_QUOTE = 13, TAG_VALUE_QUOTE = 14
+		case EOF = -1, TAG_VALUE_CURLY_START = 1, AT = 2, COMMA = 3, EQUALS = 4, 
+                 HASH = 5, OPEN_CURLY = 6, CLOSE_CURLY = 7, NAME = 8, STRING_LITERAL = 9, 
+                 WS = 10, TAG_VALUE_OPEN_CURLY = 11, TAG_VALUE_CLOSE_CURLY = 12, 
+                 TAG_VALUE_CURLY = 13
 	}
 
 	public
@@ -32,12 +32,12 @@ open class BibtexParser: Parser {
 	]
 
 	private static let _LITERAL_NAMES: [String?] = [
-		nil, nil, nil, nil, "'@'", "','", nil, nil, nil, nil, nil, nil, nil, "'\"'"
+		nil, nil, "'@'", "','", "'='", "'#'"
 	]
 	private static let _SYMBOLIC_NAMES: [String?] = [
-		nil, "TAG_VALUE_CURLY_START", "TAG_VALUE_QUOTE_START", "TAG_VALUE_CONCAT_START", 
-		"AT", "COMMA", "OPEN_CURLY", "CLOSE_CURLY", "NAME", "WHITESPACE", "TAG_VALUE_OPEN_CURLY", 
-		"TAG_VALUE_CLOSE_CURLY", "TAG_VALUE_CURLY", "TAG_VALUE_CLOSE_QUOTE", "TAG_VALUE_QUOTE"
+		nil, "TAG_VALUE_CURLY_START", "AT", "COMMA", "EQUALS", "HASH", "OPEN_CURLY", 
+		"CLOSE_CURLY", "NAME", "STRING_LITERAL", "WS", "TAG_VALUE_OPEN_CURLY", 
+		"TAG_VALUE_CLOSE_CURLY", "TAG_VALUE_CURLY"
 	]
 	public
 	static let VOCABULARY = Vocabulary(_LITERAL_NAMES, _SYMBOLIC_NAMES)
@@ -365,32 +365,24 @@ open class BibtexParser: Parser {
 				return getToken(BibtexParser.Tokens.NAME.rawValue, 0)
 			}
 			open
-			func TAG_VALUE_QUOTE_START() -> TerminalNode? {
-				return getToken(BibtexParser.Tokens.TAG_VALUE_QUOTE_START.rawValue, 0)
+			func EQUALS() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.EQUALS.rawValue, 0)
 			}
 			open
-			func TAG_VALUE_QUOTE() -> [TerminalNode] {
-				return getTokens(BibtexParser.Tokens.TAG_VALUE_QUOTE.rawValue)
+			func STRING_LITERAL() -> [TerminalNode] {
+				return getTokens(BibtexParser.Tokens.STRING_LITERAL.rawValue)
 			}
 			open
-			func TAG_VALUE_QUOTE(_ i:Int) -> TerminalNode? {
-				return getToken(BibtexParser.Tokens.TAG_VALUE_QUOTE.rawValue, i)
+			func STRING_LITERAL(_ i:Int) -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.STRING_LITERAL.rawValue, i)
 			}
 			open
-			func TAG_VALUE_CLOSE_QUOTE() -> [TerminalNode] {
-				return getTokens(BibtexParser.Tokens.TAG_VALUE_CLOSE_QUOTE.rawValue)
+			func HASH() -> [TerminalNode] {
+				return getTokens(BibtexParser.Tokens.HASH.rawValue)
 			}
 			open
-			func TAG_VALUE_CLOSE_QUOTE(_ i:Int) -> TerminalNode? {
-				return getToken(BibtexParser.Tokens.TAG_VALUE_CLOSE_QUOTE.rawValue, i)
-			}
-			open
-			func TAG_VALUE_CONCAT_START() -> [TerminalNode] {
-				return getTokens(BibtexParser.Tokens.TAG_VALUE_CONCAT_START.rawValue)
-			}
-			open
-			func TAG_VALUE_CONCAT_START(_ i:Int) -> TerminalNode? {
-				return getToken(BibtexParser.Tokens.TAG_VALUE_CONCAT_START.rawValue, i)
+			func HASH(_ i:Int) -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.HASH.rawValue, i)
 			}
 		override open
 		func getRuleIndex() -> Int {
@@ -418,7 +410,7 @@ open class BibtexParser: Parser {
 	    		try! exitRule()
 	    }
 		do {
-		 	setState(54)
+		 	setState(52)
 		 	try _errHandler.sync(self)
 		 	switch(try getInterpreter().adaptivePredict(_input,3, _ctx)) {
 		 	case 1:
@@ -446,28 +438,24 @@ open class BibtexParser: Parser {
 		 		     }()
 
 		 		setState(43)
-		 		try match(BibtexParser.Tokens.TAG_VALUE_QUOTE_START.rawValue)
+		 		try match(BibtexParser.Tokens.EQUALS.rawValue)
 		 		setState(44)
-		 		try match(BibtexParser.Tokens.TAG_VALUE_QUOTE.rawValue)
-		 		setState(45)
-		 		try match(BibtexParser.Tokens.TAG_VALUE_CLOSE_QUOTE.rawValue)
-		 		setState(51)
+		 		try match(BibtexParser.Tokens.STRING_LITERAL.rawValue)
+		 		setState(49)
 		 		try _errHandler.sync(self)
 		 		_la = try _input.LA(1)
 		 		while (//closure
 		 		 { () -> Bool in
-		 		      let testSet: Bool = _la == BibtexParser.Tokens.TAG_VALUE_CONCAT_START.rawValue
+		 		      let testSet: Bool = _la == BibtexParser.Tokens.HASH.rawValue
 		 		      return testSet
 		 		 }()) {
+		 			setState(45)
+		 			try match(BibtexParser.Tokens.HASH.rawValue)
 		 			setState(46)
-		 			try match(BibtexParser.Tokens.TAG_VALUE_CONCAT_START.rawValue)
-		 			setState(47)
-		 			try match(BibtexParser.Tokens.TAG_VALUE_QUOTE.rawValue)
-		 			setState(48)
-		 			try match(BibtexParser.Tokens.TAG_VALUE_CLOSE_QUOTE.rawValue)
+		 			try match(BibtexParser.Tokens.STRING_LITERAL.rawValue)
 
 
-		 			setState(53)
+		 			setState(51)
 		 			try _errHandler.sync(self)
 		 			_la = try _input.LA(1)
 		 		}
@@ -542,11 +530,11 @@ open class BibtexParser: Parser {
 		do {
 			var _alt: Int
 			try enterOuterAlt(_localctx, 1)
-			setState(57)
+			setState(55)
 			try match(BibtexParser.Tokens.TAG_VALUE_CURLY.rawValue)
 
 			_ctx!.stop = try _input.LT(-1)
-			setState(67)
+			setState(65)
 			try _errHandler.sync(self)
 			_alt = try getInterpreter().adaptivePredict(_input,4,_ctx)
 			while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
@@ -557,22 +545,22 @@ open class BibtexParser: Parser {
 					_prevctx = _localctx
 					_localctx = CurlyTagValueContext(_parentctx, _parentState);
 					try pushNewRecursionContext(_localctx, _startState, BibtexParser.RULE_curlyTagValue)
-					setState(59)
+					setState(57)
 					if (!(precpred(_ctx, 1))) {
 					    throw ANTLRException.recognition(e:FailedPredicateException(self, "precpred(_ctx, 1)"))
 					}
-					setState(60)
+					setState(58)
 					try match(BibtexParser.Tokens.TAG_VALUE_OPEN_CURLY.rawValue)
-					setState(61)
+					setState(59)
 					try curlyTagValue(0)
-					setState(62)
+					setState(60)
 					try match(BibtexParser.Tokens.TAG_VALUE_CLOSE_CURLY.rawValue)
-					setState(63)
+					setState(61)
 					try curlyTagValue(2)
 
 			 
 				}
-				setState(69)
+				setState(67)
 				try _errHandler.sync(self)
 				_alt = try getInterpreter().adaptivePredict(_input,4,_ctx)
 			}
