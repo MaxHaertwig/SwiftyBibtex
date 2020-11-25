@@ -4,8 +4,10 @@ options { tokenVocab=BibtexLexer; }
 
 root : bibFile EOF ;
  
-bibFile : ( publication )* ;
+bibFile : ( string | publication )* ;
  
+string : AT STRING OPEN_CURLY stringName=NAME EQUALS STRING_LITERAL CLOSE_CURLY ;
+
 publication : AT publicationType=NAME OPEN_CURLY citationKey=NAME COMMA tags CLOSE_CURLY ;
  
 tags : tag ( COMMA tag )* ;

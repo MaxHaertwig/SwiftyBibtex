@@ -2,6 +2,10 @@ import XCTest
 @testable import SwiftyBibtex
 
 final class SwiftyBibtexTests: XCTestCase {
+    override func setUp() {
+        continueAfterFailure = false
+    }
+    
     func testSimplePublication() {
         let input = """
         @Article{citationKey,

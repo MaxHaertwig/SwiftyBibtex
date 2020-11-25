@@ -1,6 +1,6 @@
 lexer grammar BibtexLexer;
 
-TAG_VALUE_CURLY_START : '=' OPTIONAL_WS '{' -> pushMode(TAG_VALUE_CURLY_MODE) ;
+TAG_VALUE_CURLY_START : '=' [ \t\r\n]* '{' -> pushMode(TAG_VALUE_CURLY_MODE) ;
 
 AT : '@' ;
 COMMA : ',' ;
@@ -10,13 +10,13 @@ HASH : '#' ;
 OPEN_CURLY : '{' ;
 CLOSE_CURLY : '}' ;
 
+STRING : [sS] [tT] [rR] [iI] [nN] [gG] ;
+
 NAME : [0-9a-zA-Z!?$&*+./:;^<>_`|[\]\-]+ ;
 
 STRING_LITERAL : '"' ~["]* '"' ;
 
 WS : [ \t\r\n]+ -> skip ;
-
-fragment OPTIONAL_WS : [ \t\r\n]* ;
 
 
 mode TAG_VALUE_CURLY_MODE;

@@ -17,18 +17,18 @@ open class BibtexParser: Parser {
 	public
 	enum Tokens: Int {
 		case EOF = -1, TAG_VALUE_CURLY_START = 1, AT = 2, COMMA = 3, EQUALS = 4, 
-                 HASH = 5, OPEN_CURLY = 6, CLOSE_CURLY = 7, NAME = 8, STRING_LITERAL = 9, 
-                 WS = 10, TAG_VALUE_OPEN_CURLY = 11, TAG_VALUE_CLOSE_CURLY = 12, 
-                 TAG_VALUE_CURLY = 13
+                 HASH = 5, OPEN_CURLY = 6, CLOSE_CURLY = 7, STRING = 8, 
+                 NAME = 9, STRING_LITERAL = 10, WS = 11, TAG_VALUE_OPEN_CURLY = 12, 
+                 TAG_VALUE_CLOSE_CURLY = 13, TAG_VALUE_CURLY = 14
 	}
 
 	public
-	static let RULE_root = 0, RULE_bibFile = 1, RULE_publication = 2, RULE_tags = 3, 
-            RULE_tag = 4, RULE_curlyTagValue = 5
+	static let RULE_root = 0, RULE_bibFile = 1, RULE_string = 2, RULE_publication = 3, 
+            RULE_tags = 4, RULE_tag = 5, RULE_curlyTagValue = 6
 
 	public
 	static let ruleNames: [String] = [
-		"root", "bibFile", "publication", "tags", "tag", "curlyTagValue"
+		"root", "bibFile", "string", "publication", "tags", "tag", "curlyTagValue"
 	]
 
 	private static let _LITERAL_NAMES: [String?] = [
@@ -36,7 +36,7 @@ open class BibtexParser: Parser {
 	]
 	private static let _SYMBOLIC_NAMES: [String?] = [
 		nil, "TAG_VALUE_CURLY_START", "AT", "COMMA", "EQUALS", "HASH", "OPEN_CURLY", 
-		"CLOSE_CURLY", "NAME", "STRING_LITERAL", "WS", "TAG_VALUE_OPEN_CURLY", 
+		"CLOSE_CURLY", "STRING", "NAME", "STRING_LITERAL", "WS", "TAG_VALUE_OPEN_CURLY", 
 		"TAG_VALUE_CLOSE_CURLY", "TAG_VALUE_CURLY"
 	]
 	public
@@ -103,9 +103,9 @@ open class BibtexParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(12)
+		 	setState(14)
 		 	try bibFile()
-		 	setState(13)
+		 	setState(15)
 		 	try match(BibtexParser.Tokens.EOF.rawValue)
 
 		}
@@ -119,6 +119,14 @@ open class BibtexParser: Parser {
 	}
 
 	public class BibFileContext: ParserRuleContext {
+			open
+			func string() -> [StringContext] {
+				return getRuleContexts(StringContext.self)
+			}
+			open
+			func string(_ i: Int) -> StringContext? {
+				return getRuleContext(StringContext.self, i)
+			}
 			open
 			func publication() -> [PublicationContext] {
 				return getRuleContexts(PublicationContext.self)
@@ -154,7 +162,7 @@ open class BibtexParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(18)
+		 	setState(21)
 		 	try _errHandler.sync(self)
 		 	_la = try _input.LA(1)
 		 	while (//closure
@@ -162,14 +170,111 @@ open class BibtexParser: Parser {
 		 	      let testSet: Bool = _la == BibtexParser.Tokens.AT.rawValue
 		 	      return testSet
 		 	 }()) {
-		 		setState(15)
-		 		try publication()
+		 		setState(19)
+		 		try _errHandler.sync(self)
+		 		switch(try getInterpreter().adaptivePredict(_input,0, _ctx)) {
+		 		case 1:
+		 			setState(17)
+		 			try string()
 
+		 			break
+		 		case 2:
+		 			setState(18)
+		 			try publication()
 
-		 		setState(20)
+		 			break
+		 		default: break
+		 		}
+
+		 		setState(23)
 		 		try _errHandler.sync(self)
 		 		_la = try _input.LA(1)
 		 	}
+
+		}
+		catch ANTLRException.recognition(let re) {
+			_localctx.exception = re
+			_errHandler.reportError(self, re)
+			try _errHandler.recover(self, re)
+		}
+
+		return _localctx
+	}
+
+	public class StringContext: ParserRuleContext {
+		open var stringName: Token!
+			open
+			func AT() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.AT.rawValue, 0)
+			}
+			open
+			func STRING() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.STRING.rawValue, 0)
+			}
+			open
+			func OPEN_CURLY() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.OPEN_CURLY.rawValue, 0)
+			}
+			open
+			func EQUALS() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.EQUALS.rawValue, 0)
+			}
+			open
+			func STRING_LITERAL() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.STRING_LITERAL.rawValue, 0)
+			}
+			open
+			func CLOSE_CURLY() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.CLOSE_CURLY.rawValue, 0)
+			}
+			open
+			func NAME() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.NAME.rawValue, 0)
+			}
+		override open
+		func getRuleIndex() -> Int {
+			return BibtexParser.RULE_string
+		}
+		override open
+		func enterRule(_ listener: ParseTreeListener) {
+			if let listener = listener as? BibtexParserListener {
+				listener.enterString(self)
+			}
+		}
+		override open
+		func exitRule(_ listener: ParseTreeListener) {
+			if let listener = listener as? BibtexParserListener {
+				listener.exitString(self)
+			}
+		}
+	}
+	@discardableResult
+	 open func string() throws -> StringContext {
+		var _localctx: StringContext = StringContext(_ctx, getState())
+		try enterRule(_localctx, 4, BibtexParser.RULE_string)
+		defer {
+	    		try! exitRule()
+	    }
+		do {
+		 	try enterOuterAlt(_localctx, 1)
+		 	setState(24)
+		 	try match(BibtexParser.Tokens.AT.rawValue)
+		 	setState(25)
+		 	try match(BibtexParser.Tokens.STRING.rawValue)
+		 	setState(26)
+		 	try match(BibtexParser.Tokens.OPEN_CURLY.rawValue)
+		 	setState(27)
+		 	try {
+		 			let assignmentValue = try match(BibtexParser.Tokens.NAME.rawValue)
+		 			_localctx.castdown(StringContext.self).stringName = assignmentValue
+		 	     }()
+
+		 	setState(28)
+		 	try match(BibtexParser.Tokens.EQUALS.rawValue)
+		 	setState(29)
+		 	try match(BibtexParser.Tokens.STRING_LITERAL.rawValue)
+		 	setState(30)
+		 	try match(BibtexParser.Tokens.CLOSE_CURLY.rawValue)
 
 		}
 		catch ANTLRException.recognition(let re) {
@@ -232,33 +337,33 @@ open class BibtexParser: Parser {
 	@discardableResult
 	 open func publication() throws -> PublicationContext {
 		var _localctx: PublicationContext = PublicationContext(_ctx, getState())
-		try enterRule(_localctx, 4, BibtexParser.RULE_publication)
+		try enterRule(_localctx, 6, BibtexParser.RULE_publication)
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(21)
+		 	setState(32)
 		 	try match(BibtexParser.Tokens.AT.rawValue)
-		 	setState(22)
+		 	setState(33)
 		 	try {
 		 			let assignmentValue = try match(BibtexParser.Tokens.NAME.rawValue)
 		 			_localctx.castdown(PublicationContext.self).publicationType = assignmentValue
 		 	     }()
 
-		 	setState(23)
+		 	setState(34)
 		 	try match(BibtexParser.Tokens.OPEN_CURLY.rawValue)
-		 	setState(24)
+		 	setState(35)
 		 	try {
 		 			let assignmentValue = try match(BibtexParser.Tokens.NAME.rawValue)
 		 			_localctx.castdown(PublicationContext.self).citationKey = assignmentValue
 		 	     }()
 
-		 	setState(25)
+		 	setState(36)
 		 	try match(BibtexParser.Tokens.COMMA.rawValue)
-		 	setState(26)
+		 	setState(37)
 		 	try tags()
-		 	setState(27)
+		 	setState(38)
 		 	try match(BibtexParser.Tokens.CLOSE_CURLY.rawValue)
 
 		}
@@ -308,16 +413,16 @@ open class BibtexParser: Parser {
 	@discardableResult
 	 open func tags() throws -> TagsContext {
 		var _localctx: TagsContext = TagsContext(_ctx, getState())
-		try enterRule(_localctx, 6, BibtexParser.RULE_tags)
+		try enterRule(_localctx, 8, BibtexParser.RULE_tags)
 		var _la: Int = 0
 		defer {
 	    		try! exitRule()
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(29)
+		 	setState(40)
 		 	try tag()
-		 	setState(34)
+		 	setState(45)
 		 	try _errHandler.sync(self)
 		 	_la = try _input.LA(1)
 		 	while (//closure
@@ -325,13 +430,13 @@ open class BibtexParser: Parser {
 		 	      let testSet: Bool = _la == BibtexParser.Tokens.COMMA.rawValue
 		 	      return testSet
 		 	 }()) {
-		 		setState(30)
+		 		setState(41)
 		 		try match(BibtexParser.Tokens.COMMA.rawValue)
-		 		setState(31)
+		 		setState(42)
 		 		try tag()
 
 
-		 		setState(36)
+		 		setState(47)
 		 		try _errHandler.sync(self)
 		 		_la = try _input.LA(1)
 		 	}
@@ -404,44 +509,44 @@ open class BibtexParser: Parser {
 	@discardableResult
 	 open func tag() throws -> TagContext {
 		var _localctx: TagContext = TagContext(_ctx, getState())
-		try enterRule(_localctx, 8, BibtexParser.RULE_tag)
+		try enterRule(_localctx, 10, BibtexParser.RULE_tag)
 		var _la: Int = 0
 		defer {
 	    		try! exitRule()
 	    }
 		do {
-		 	setState(52)
+		 	setState(63)
 		 	try _errHandler.sync(self)
-		 	switch(try getInterpreter().adaptivePredict(_input,3, _ctx)) {
+		 	switch(try getInterpreter().adaptivePredict(_input,4, _ctx)) {
 		 	case 1:
 		 		try enterOuterAlt(_localctx, 1)
-		 		setState(37)
+		 		setState(48)
 		 		try {
 		 				let assignmentValue = try match(BibtexParser.Tokens.NAME.rawValue)
 		 				_localctx.castdown(TagContext.self).tagName = assignmentValue
 		 		     }()
 
-		 		setState(38)
+		 		setState(49)
 		 		try match(BibtexParser.Tokens.TAG_VALUE_CURLY_START.rawValue)
-		 		setState(39)
+		 		setState(50)
 		 		try curlyTagValue(0)
-		 		setState(40)
+		 		setState(51)
 		 		try match(BibtexParser.Tokens.TAG_VALUE_CLOSE_CURLY.rawValue)
 
 		 		break
 		 	case 2:
 		 		try enterOuterAlt(_localctx, 2)
-		 		setState(42)
+		 		setState(53)
 		 		try {
 		 				let assignmentValue = try match(BibtexParser.Tokens.NAME.rawValue)
 		 				_localctx.castdown(TagContext.self).tagName = assignmentValue
 		 		     }()
 
-		 		setState(43)
+		 		setState(54)
 		 		try match(BibtexParser.Tokens.EQUALS.rawValue)
-		 		setState(44)
+		 		setState(55)
 		 		try match(BibtexParser.Tokens.STRING_LITERAL.rawValue)
-		 		setState(49)
+		 		setState(60)
 		 		try _errHandler.sync(self)
 		 		_la = try _input.LA(1)
 		 		while (//closure
@@ -449,13 +554,13 @@ open class BibtexParser: Parser {
 		 		      let testSet: Bool = _la == BibtexParser.Tokens.HASH.rawValue
 		 		      return testSet
 		 		 }()) {
-		 			setState(45)
+		 			setState(56)
 		 			try match(BibtexParser.Tokens.HASH.rawValue)
-		 			setState(46)
+		 			setState(57)
 		 			try match(BibtexParser.Tokens.STRING_LITERAL.rawValue)
 
 
-		 			setState(51)
+		 			setState(62)
 		 			try _errHandler.sync(self)
 		 			_la = try _input.LA(1)
 		 		}
@@ -522,21 +627,21 @@ open class BibtexParser: Parser {
 		var _parentState: Int = getState()
 		var _localctx: CurlyTagValueContext = CurlyTagValueContext(_ctx, _parentState)
 		var  _prevctx: CurlyTagValueContext = _localctx
-		var _startState: Int = 10
-		try enterRecursionRule(_localctx, 10, BibtexParser.RULE_curlyTagValue, _p)
+		var _startState: Int = 12
+		try enterRecursionRule(_localctx, 12, BibtexParser.RULE_curlyTagValue, _p)
 		defer {
 	    		try! unrollRecursionContexts(_parentctx)
 	    }
 		do {
 			var _alt: Int
 			try enterOuterAlt(_localctx, 1)
-			setState(55)
+			setState(66)
 			try match(BibtexParser.Tokens.TAG_VALUE_CURLY.rawValue)
 
 			_ctx!.stop = try _input.LT(-1)
-			setState(65)
+			setState(76)
 			try _errHandler.sync(self)
-			_alt = try getInterpreter().adaptivePredict(_input,4,_ctx)
+			_alt = try getInterpreter().adaptivePredict(_input,5,_ctx)
 			while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
 				if ( _alt==1 ) {
 					if _parseListeners != nil {
@@ -545,24 +650,24 @@ open class BibtexParser: Parser {
 					_prevctx = _localctx
 					_localctx = CurlyTagValueContext(_parentctx, _parentState);
 					try pushNewRecursionContext(_localctx, _startState, BibtexParser.RULE_curlyTagValue)
-					setState(57)
+					setState(68)
 					if (!(precpred(_ctx, 1))) {
 					    throw ANTLRException.recognition(e:FailedPredicateException(self, "precpred(_ctx, 1)"))
 					}
-					setState(58)
+					setState(69)
 					try match(BibtexParser.Tokens.TAG_VALUE_OPEN_CURLY.rawValue)
-					setState(59)
+					setState(70)
 					try curlyTagValue(0)
-					setState(60)
+					setState(71)
 					try match(BibtexParser.Tokens.TAG_VALUE_CLOSE_CURLY.rawValue)
-					setState(61)
+					setState(72)
 					try curlyTagValue(2)
 
 			 
 				}
-				setState(67)
+				setState(78)
 				try _errHandler.sync(self)
-				_alt = try getInterpreter().adaptivePredict(_input,4,_ctx)
+				_alt = try getInterpreter().adaptivePredict(_input,5,_ctx)
 			}
 
 		}
@@ -578,7 +683,7 @@ open class BibtexParser: Parser {
 	override open
 	func sempred(_ _localctx: RuleContext?, _ ruleIndex: Int,  _ predIndex: Int)throws -> Bool {
 		switch (ruleIndex) {
-		case  5:
+		case  6:
 			return try curlyTagValue_sempred(_localctx?.castdown(CurlyTagValueContext.self), predIndex)
 	    default: return true
 		}

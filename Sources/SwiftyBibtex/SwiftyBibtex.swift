@@ -3,14 +3,16 @@ import BibtexParser
 
 struct SwiftyBibtex {
     static func parse(_ input: String) throws -> [Publication] {
+        let listener = BibtexPublicationListener()
+        let bibtexParser = parser(for: input)
+        try ParseTreeWalker().walk(listener, try! bibtexParser.root())
+        return listener.publications
+    }
+    
+    internal static func parser(for input: String) -> BibtexParser {
         let inputStream = ANTLRInputStream(input)
         let lexer = BibtexLexer(inputStream)
         let tokenStream = CommonTokenStream(lexer)
-        let parser = try BibtexParser(tokenStream)
-        let expressionContext = try parser.root()
-        
-        let listener = CustomBibtexListener()
-        try ParseTreeWalker().walk(listener, expressionContext)
-        return listener.publications
+        return try! BibtexParser(tokenStream)
     }
 }

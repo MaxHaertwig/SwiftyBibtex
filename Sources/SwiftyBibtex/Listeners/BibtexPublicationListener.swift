@@ -1,6 +1,6 @@
 import BibtexParser
 
-internal final class CustomBibtexListener : BibtexParserBaseListener {
+internal final class BibtexPublicationListener : BibtexParserBaseListener {
     private(set) var publications = [Publication]()
     
     private var tags = [String: String]()
