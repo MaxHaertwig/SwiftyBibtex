@@ -1,7 +1,7 @@
 import BibtexParser
 
 internal final class BibtexPublicationListener : BibtexParserBaseListener {
-    private(set) var publications = [Publication]()
+    private(set) var publications = [ParsedPublication]()
     
     private var stringDefinitions: [String: String]
     private var fields = [String: String]()
@@ -33,7 +33,7 @@ internal final class BibtexPublicationListener : BibtexParserBaseListener {
     
     override func exitPublication(_ ctx: BibtexParser.PublicationContext) {
         if let publicationType = ctx.publicationType.getText(), let citationKey = ctx.citationKey.getText() {
-            publications.append(Publication(type: publicationType, citationKey: citationKey, fields: fields))
+            publications.append(ParsedPublication(type: publicationType, citationKey: citationKey, fields: fields))
         }
     }
 }

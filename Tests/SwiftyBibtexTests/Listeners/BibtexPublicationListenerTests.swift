@@ -3,7 +3,7 @@ import XCTest
 @testable import SwiftyBibtex
 
 final class BibtexPublicationListenerTests: XCTestCase {
-    private static func parse(_ input: String, stringDefinitions: [String: String] = [:]) -> [Publication] {
+    private static func parse(_ input: String, stringDefinitions: [String: String] = [:]) -> [ParsedPublication] {
         let listener = BibtexPublicationListener(stringDefinitions: stringDefinitions)
         let bibtexParser = SwiftyBibtex.parser(for: input)
         try! ParseTreeWalker().walk(listener, try! bibtexParser.root())
@@ -22,7 +22,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         """
         let publications = Self.parse(input)
         XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0], Publication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "fieldValue"]))
+        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "fieldValue"]))
     }
     
     func testPublicationWithTwoFields() {
@@ -34,7 +34,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         """
         let publications = Self.parse(input)
         XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0], Publication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "fieldValue", "fieldName2": "fieldValue2"]))
+        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "fieldValue", "fieldName2": "fieldValue2"]))
     }
     
     func testFieldValues() {
@@ -57,7 +57,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         """
         let publications = Self.parse(input, stringDefinitions: ["foo": "bar"])
         XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0], Publication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "barBaz"]))
+        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "barBaz"]))
     }
     
     private func testCurlyFieldValue(_ fieldValue: String) {
