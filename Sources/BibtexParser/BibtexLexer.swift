@@ -1,4 +1,4 @@
-// Generated from BibtexLexer.g4 by ANTLR 4.8
+// Generated from BibtexLexer.g4 by ANTLR 4.9
 import Antlr4
 
 open class BibtexLexer: Lexer {
@@ -58,7 +58,7 @@ open class BibtexLexer: Lexer {
 
 	public
 	required init(_ input: CharStream) {
-	    RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION)
+	    RuntimeMetaData.checkVersion("4.9", RuntimeMetaData.VERSION)
 		super.init(input)
 		_interp = LexerATNSimulator(self, BibtexLexer._ATN, BibtexLexer._decisionToDFA, BibtexLexer._sharedContextCache)
 	}

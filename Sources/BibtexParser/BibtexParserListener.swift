@@ -1,4 +1,4 @@
-// Generated from BibtexParser.g4 by ANTLR 4.8
+// Generated from BibtexParser.g4 by ANTLR 4.9
 import Antlr4
 
 /**

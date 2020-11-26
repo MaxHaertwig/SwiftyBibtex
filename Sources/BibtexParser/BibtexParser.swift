@@ -1,4 +1,4 @@
-// Generated from BibtexParser.g4 by ANTLR 4.8
+// Generated from BibtexParser.g4 by ANTLR 4.9
 import Antlr4
 
 open class BibtexParser: Parser {
@@ -63,7 +63,7 @@ open class BibtexParser: Parser {
 
 	override public
 	init(_ input:TokenStream) throws {
-	    RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION)
+	    RuntimeMetaData.checkVersion("4.9", RuntimeMetaData.VERSION)
 		try super.init(input)
 		_interp = ParserATNSimulator(self,BibtexParser._ATN,BibtexParser._decisionToDFA, BibtexParser._sharedContextCache)
 	}
@@ -685,10 +685,10 @@ open class BibtexParser: Parser {
 	@discardableResult
 	private func curlyFieldValue(_ _p: Int) throws -> CurlyFieldValueContext   {
 		let _parentctx: ParserRuleContext? = _ctx
-		var _parentState: Int = getState()
+		let _parentState: Int = getState()
 		var _localctx: CurlyFieldValueContext = CurlyFieldValueContext(_ctx, _parentState)
-		var  _prevctx: CurlyFieldValueContext = _localctx
-		var _startState: Int = 14
+		var _prevctx: CurlyFieldValueContext = _localctx
+		let _startState: Int = 14
 		try enterRecursionRule(_localctx, 14, BibtexParser.RULE_curlyFieldValue, _p)
 		defer {
 	    		try! unrollRecursionContexts(_parentctx)
