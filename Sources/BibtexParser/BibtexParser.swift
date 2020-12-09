@@ -18,18 +18,20 @@ open class BibtexParser: Parser {
 	enum Tokens: Int {
 		case EOF = -1, FIELD_VALUE_CURLY_START = 1, AT = 2, COMMA = 3, EQUALS = 4, 
                  HASH = 5, OPEN_CURLY = 6, CLOSE_CURLY = 7, STRING = 8, 
-                 NAME = 9, STRING_LITERAL = 10, WS = 11, FIELD_VALUE_OPEN_CURLY = 12, 
-                 FIELD_VALUE_CLOSE_CURLY = 13, FIELD_VALUE_CURLY = 14
+                 COMMENT_START = 9, NAME = 10, STRING_LITERAL = 11, WS = 12, 
+                 FIELD_VALUE_OPEN_CURLY = 13, FIELD_VALUE_CLOSE_CURLY = 14, 
+                 FIELD_VALUE_CURLY = 15
 	}
 
 	public
 	static let RULE_root = 0, RULE_bibFile = 1, RULE_string = 2, RULE_publication = 3, 
-            RULE_fields = 4, RULE_field = 5, RULE_fieldString = 6, RULE_curlyFieldValue = 7
+            RULE_fields = 4, RULE_field = 5, RULE_fieldString = 6, RULE_curlyFieldValue = 7, 
+            RULE_comment = 8
 
 	public
 	static let ruleNames: [String] = [
 		"root", "bibFile", "string", "publication", "fields", "field", "fieldString", 
-		"curlyFieldValue"
+		"curlyFieldValue", "comment"
 	]
 
 	private static let _LITERAL_NAMES: [String?] = [
@@ -37,8 +39,8 @@ open class BibtexParser: Parser {
 	]
 	private static let _SYMBOLIC_NAMES: [String?] = [
 		nil, "FIELD_VALUE_CURLY_START", "AT", "COMMA", "EQUALS", "HASH", "OPEN_CURLY", 
-		"CLOSE_CURLY", "STRING", "NAME", "STRING_LITERAL", "WS", "FIELD_VALUE_OPEN_CURLY", 
-		"FIELD_VALUE_CLOSE_CURLY", "FIELD_VALUE_CURLY"
+		"CLOSE_CURLY", "STRING", "COMMENT_START", "NAME", "STRING_LITERAL", "WS", 
+		"FIELD_VALUE_OPEN_CURLY", "FIELD_VALUE_CLOSE_CURLY", "FIELD_VALUE_CURLY"
 	]
 	public
 	static let VOCABULARY = Vocabulary(_LITERAL_NAMES, _SYMBOLIC_NAMES)
@@ -104,9 +106,9 @@ open class BibtexParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(16)
+		 	setState(18)
 		 	try bibFile()
-		 	setState(17)
+		 	setState(19)
 		 	try match(BibtexParser.Tokens.EOF.rawValue)
 
 		}
@@ -136,6 +138,14 @@ open class BibtexParser: Parser {
 			func publication(_ i: Int) -> PublicationContext? {
 				return getRuleContext(PublicationContext.self, i)
 			}
+			open
+			func comment() -> [CommentContext] {
+				return getRuleContexts(CommentContext.self)
+			}
+			open
+			func comment(_ i: Int) -> CommentContext? {
+				return getRuleContext(CommentContext.self, i)
+			}
 		override open
 		func getRuleIndex() -> Int {
 			return BibtexParser.RULE_bibFile
@@ -163,31 +173,36 @@ open class BibtexParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(23)
+		 	setState(26)
 		 	try _errHandler.sync(self)
 		 	_la = try _input.LA(1)
 		 	while (//closure
 		 	 { () -> Bool in
-		 	      let testSet: Bool = _la == BibtexParser.Tokens.AT.rawValue
+		 	      let testSet: Bool = _la == BibtexParser.Tokens.AT.rawValue || _la == BibtexParser.Tokens.COMMENT_START.rawValue
 		 	      return testSet
 		 	 }()) {
-		 		setState(21)
+		 		setState(24)
 		 		try _errHandler.sync(self)
 		 		switch(try getInterpreter().adaptivePredict(_input,0, _ctx)) {
 		 		case 1:
-		 			setState(19)
+		 			setState(21)
 		 			try string()
 
 		 			break
 		 		case 2:
-		 			setState(20)
+		 			setState(22)
 		 			try publication()
+
+		 			break
+		 		case 3:
+		 			setState(23)
+		 			try comment()
 
 		 			break
 		 		default: break
 		 		}
 
-		 		setState(25)
+		 		setState(28)
 		 		try _errHandler.sync(self)
 		 		_la = try _input.LA(1)
 		 	}
@@ -258,23 +273,23 @@ open class BibtexParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(26)
-		 	try match(BibtexParser.Tokens.AT.rawValue)
-		 	setState(27)
-		 	try match(BibtexParser.Tokens.STRING.rawValue)
-		 	setState(28)
-		 	try match(BibtexParser.Tokens.OPEN_CURLY.rawValue)
 		 	setState(29)
+		 	try match(BibtexParser.Tokens.AT.rawValue)
+		 	setState(30)
+		 	try match(BibtexParser.Tokens.STRING.rawValue)
+		 	setState(31)
+		 	try match(BibtexParser.Tokens.OPEN_CURLY.rawValue)
+		 	setState(32)
 		 	try {
 		 			let assignmentValue = try match(BibtexParser.Tokens.NAME.rawValue)
 		 			_localctx.castdown(StringContext.self).stringName = assignmentValue
 		 	     }()
 
-		 	setState(30)
+		 	setState(33)
 		 	try match(BibtexParser.Tokens.EQUALS.rawValue)
-		 	setState(31)
+		 	setState(34)
 		 	try match(BibtexParser.Tokens.STRING_LITERAL.rawValue)
-		 	setState(32)
+		 	setState(35)
 		 	try match(BibtexParser.Tokens.CLOSE_CURLY.rawValue)
 
 		}
@@ -344,27 +359,27 @@ open class BibtexParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(34)
+		 	setState(37)
 		 	try match(BibtexParser.Tokens.AT.rawValue)
-		 	setState(35)
+		 	setState(38)
 		 	try {
 		 			let assignmentValue = try match(BibtexParser.Tokens.NAME.rawValue)
 		 			_localctx.castdown(PublicationContext.self).publicationType = assignmentValue
 		 	     }()
 
-		 	setState(36)
+		 	setState(39)
 		 	try match(BibtexParser.Tokens.OPEN_CURLY.rawValue)
-		 	setState(37)
+		 	setState(40)
 		 	try {
 		 			let assignmentValue = try match(BibtexParser.Tokens.NAME.rawValue)
 		 			_localctx.castdown(PublicationContext.self).citationKey = assignmentValue
 		 	     }()
 
-		 	setState(38)
+		 	setState(41)
 		 	try match(BibtexParser.Tokens.COMMA.rawValue)
-		 	setState(39)
+		 	setState(42)
 		 	try fields()
-		 	setState(40)
+		 	setState(43)
 		 	try match(BibtexParser.Tokens.CLOSE_CURLY.rawValue)
 
 		}
@@ -420,27 +435,39 @@ open class BibtexParser: Parser {
 	    		try! exitRule()
 	    }
 		do {
+			var _alt:Int
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(42)
+		 	setState(45)
 		 	try field()
-		 	setState(47)
+		 	setState(50)
+		 	try _errHandler.sync(self)
+		 	_alt = try getInterpreter().adaptivePredict(_input,2,_ctx)
+		 	while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
+		 		if ( _alt==1 ) {
+		 			setState(46)
+		 			try match(BibtexParser.Tokens.COMMA.rawValue)
+		 			setState(47)
+		 			try field()
+
+		 	 
+		 		}
+		 		setState(52)
+		 		try _errHandler.sync(self)
+		 		_alt = try getInterpreter().adaptivePredict(_input,2,_ctx)
+		 	}
+		 	setState(54)
 		 	try _errHandler.sync(self)
 		 	_la = try _input.LA(1)
-		 	while (//closure
+		 	if (//closure
 		 	 { () -> Bool in
 		 	      let testSet: Bool = _la == BibtexParser.Tokens.COMMA.rawValue
 		 	      return testSet
 		 	 }()) {
-		 		setState(43)
+		 		setState(53)
 		 		try match(BibtexParser.Tokens.COMMA.rawValue)
-		 		setState(44)
-		 		try field()
 
-
-		 		setState(49)
-		 		try _errHandler.sync(self)
-		 		_la = try _input.LA(1)
 		 	}
+
 
 		}
 		catch ANTLRException.recognition(let re) {
@@ -516,38 +543,38 @@ open class BibtexParser: Parser {
 	    		try! exitRule()
 	    }
 		do {
-		 	setState(65)
+		 	setState(71)
 		 	try _errHandler.sync(self)
-		 	switch(try getInterpreter().adaptivePredict(_input,4, _ctx)) {
+		 	switch(try getInterpreter().adaptivePredict(_input,5, _ctx)) {
 		 	case 1:
 		 		try enterOuterAlt(_localctx, 1)
-		 		setState(50)
+		 		setState(56)
 		 		try {
 		 				let assignmentValue = try match(BibtexParser.Tokens.NAME.rawValue)
 		 				_localctx.castdown(FieldContext.self).fieldName = assignmentValue
 		 		     }()
 
-		 		setState(51)
+		 		setState(57)
 		 		try match(BibtexParser.Tokens.FIELD_VALUE_CURLY_START.rawValue)
-		 		setState(52)
+		 		setState(58)
 		 		try curlyFieldValue(0)
-		 		setState(53)
+		 		setState(59)
 		 		try match(BibtexParser.Tokens.FIELD_VALUE_CLOSE_CURLY.rawValue)
 
 		 		break
 		 	case 2:
 		 		try enterOuterAlt(_localctx, 2)
-		 		setState(55)
+		 		setState(61)
 		 		try {
 		 				let assignmentValue = try match(BibtexParser.Tokens.NAME.rawValue)
 		 				_localctx.castdown(FieldContext.self).fieldName = assignmentValue
 		 		     }()
 
-		 		setState(56)
-		 		try match(BibtexParser.Tokens.EQUALS.rawValue)
-		 		setState(57)
-		 		try fieldString()
 		 		setState(62)
+		 		try match(BibtexParser.Tokens.EQUALS.rawValue)
+		 		setState(63)
+		 		try fieldString()
+		 		setState(68)
 		 		try _errHandler.sync(self)
 		 		_la = try _input.LA(1)
 		 		while (//closure
@@ -555,13 +582,13 @@ open class BibtexParser: Parser {
 		 		      let testSet: Bool = _la == BibtexParser.Tokens.HASH.rawValue
 		 		      return testSet
 		 		 }()) {
-		 			setState(58)
+		 			setState(64)
 		 			try match(BibtexParser.Tokens.HASH.rawValue)
-		 			setState(59)
+		 			setState(65)
 		 			try fieldString()
 
 
-		 			setState(64)
+		 			setState(70)
 		 			try _errHandler.sync(self)
 		 			_la = try _input.LA(1)
 		 		}
@@ -615,7 +642,7 @@ open class BibtexParser: Parser {
 	    }
 		do {
 		 	try enterOuterAlt(_localctx, 1)
-		 	setState(67)
+		 	setState(73)
 		 	_la = try _input.LA(1)
 		 	if (!(//closure
 		 	 { () -> Bool in
@@ -696,13 +723,21 @@ open class BibtexParser: Parser {
 		do {
 			var _alt: Int
 			try enterOuterAlt(_localctx, 1)
-			setState(70)
-			try match(BibtexParser.Tokens.FIELD_VALUE_CURLY.rawValue)
+			setState(77)
+			try _errHandler.sync(self)
+			switch (try getInterpreter().adaptivePredict(_input,6,_ctx)) {
+			case 1:
+				setState(76)
+				try match(BibtexParser.Tokens.FIELD_VALUE_CURLY.rawValue)
+
+				break
+			default: break
+			}
 
 			_ctx!.stop = try _input.LT(-1)
-			setState(80)
+			setState(87)
 			try _errHandler.sync(self)
-			_alt = try getInterpreter().adaptivePredict(_input,5,_ctx)
+			_alt = try getInterpreter().adaptivePredict(_input,7,_ctx)
 			while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
 				if ( _alt==1 ) {
 					if _parseListeners != nil {
@@ -711,24 +746,24 @@ open class BibtexParser: Parser {
 					_prevctx = _localctx
 					_localctx = CurlyFieldValueContext(_parentctx, _parentState);
 					try pushNewRecursionContext(_localctx, _startState, BibtexParser.RULE_curlyFieldValue)
-					setState(72)
+					setState(79)
 					if (!(precpred(_ctx, 1))) {
 					    throw ANTLRException.recognition(e:FailedPredicateException(self, "precpred(_ctx, 1)"))
 					}
-					setState(73)
+					setState(80)
 					try match(BibtexParser.Tokens.FIELD_VALUE_OPEN_CURLY.rawValue)
-					setState(74)
+					setState(81)
 					try curlyFieldValue(0)
-					setState(75)
+					setState(82)
 					try match(BibtexParser.Tokens.FIELD_VALUE_CLOSE_CURLY.rawValue)
-					setState(76)
+					setState(83)
 					try curlyFieldValue(2)
 
 			 
 				}
-				setState(82)
+				setState(89)
 				try _errHandler.sync(self)
-				_alt = try getInterpreter().adaptivePredict(_input,5,_ctx)
+				_alt = try getInterpreter().adaptivePredict(_input,7,_ctx)
 			}
 
 		}
@@ -739,6 +774,62 @@ open class BibtexParser: Parser {
 		}
 
 		return _localctx;
+	}
+
+	public class CommentContext: ParserRuleContext {
+			open
+			func COMMENT_START() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.COMMENT_START.rawValue, 0)
+			}
+			open
+			func curlyFieldValue() -> CurlyFieldValueContext? {
+				return getRuleContext(CurlyFieldValueContext.self, 0)
+			}
+			open
+			func FIELD_VALUE_CLOSE_CURLY() -> TerminalNode? {
+				return getToken(BibtexParser.Tokens.FIELD_VALUE_CLOSE_CURLY.rawValue, 0)
+			}
+		override open
+		func getRuleIndex() -> Int {
+			return BibtexParser.RULE_comment
+		}
+		override open
+		func enterRule(_ listener: ParseTreeListener) {
+			if let listener = listener as? BibtexParserListener {
+				listener.enterComment(self)
+			}
+		}
+		override open
+		func exitRule(_ listener: ParseTreeListener) {
+			if let listener = listener as? BibtexParserListener {
+				listener.exitComment(self)
+			}
+		}
+	}
+	@discardableResult
+	 open func comment() throws -> CommentContext {
+		var _localctx: CommentContext = CommentContext(_ctx, getState())
+		try enterRule(_localctx, 16, BibtexParser.RULE_comment)
+		defer {
+	    		try! exitRule()
+	    }
+		do {
+		 	try enterOuterAlt(_localctx, 1)
+		 	setState(90)
+		 	try match(BibtexParser.Tokens.COMMENT_START.rawValue)
+		 	setState(91)
+		 	try curlyFieldValue(0)
+		 	setState(92)
+		 	try match(BibtexParser.Tokens.FIELD_VALUE_CLOSE_CURLY.rawValue)
+
+		}
+		catch ANTLRException.recognition(let re) {
+			_localctx.exception = re
+			_errHandler.reportError(self, re)
+			try _errHandler.recover(self, re)
+		}
+
+		return _localctx
 	}
 
 	override open

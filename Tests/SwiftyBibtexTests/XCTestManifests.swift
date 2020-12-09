@@ -5,6 +5,7 @@ public func allTests() -> [XCTestCaseEntry] {
     return [
         testCase(SwiftyBibtexTests.allTests),
         // Listeners
+        testCase(BibtexCommentListenerTests.allTests),
         testCase(BibtexStringListenerTests.allTests),
         testCase(BibtexPublicationListenerTests.allTests),
         // Model

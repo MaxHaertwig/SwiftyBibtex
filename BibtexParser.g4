@@ -4,7 +4,7 @@ options { tokenVocab=BibtexLexer; }
 
 root : bibFile EOF ;
  
-bibFile : ( string | publication )* ;
+bibFile : ( string | publication | comment )* ;
  
 string : AT STRING OPEN_CURLY stringName=NAME EQUALS STRING_LITERAL CLOSE_CURLY ;
 
@@ -19,3 +19,5 @@ fieldString : NAME | STRING_LITERAL ;
 
 curlyFieldValue : FIELD_VALUE_CURLY?
                 | curlyFieldValue FIELD_VALUE_OPEN_CURLY curlyFieldValue FIELD_VALUE_CLOSE_CURLY curlyFieldValue ;
+
+comment: COMMENT_START curlyFieldValue FIELD_VALUE_CLOSE_CURLY;

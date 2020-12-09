@@ -12,6 +12,8 @@ CLOSE_CURLY : '}' ;
 
 STRING : [sS] [tT] [rR] [iI] [nN] [gG] ;
 
+COMMENT_START: '@' [cC] [oO] [mM] [mM] [eE] [nN] [tT] [ \t\r\n]* '{' -> pushMode(FIELD_VALUE_CURLY_MODE) ;
+
 NAME : [0-9a-zA-Z!?$&*+./:;^<>_`|[\]\-]+ ;
 
 STRING_LITERAL : '"' ~["]* '"' ;
