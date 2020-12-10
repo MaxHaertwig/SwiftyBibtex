@@ -109,6 +109,12 @@ Open `Package.swift` and add the following line to your package's dependencies:
 .package(url: "https://github.com/MaxHaertwig/SwiftyBibtex.git", .branch("main"))
 ```
 
+## ANTLR
+
+This library makes use of [ANTLR](https://www.antlr.org) to generate its underlying BibTeX parser. The lexer and parser grammers can be found in [BibtexLexer.g4](./BibtexLexer.g4) and [BibtexParser.g4](./BibtexParser.g4) respectively. If you decide to change one of the grammer files, make sure to run the `generate_bibtex_parser.sh` script to generate the new parser.
+
+The ANTLR runtime (_Antlr4_) is included as a package dependency.
+
 ## Contributions
 
 Feedback, [Issues](https://github.com/MaxHaertwig/SwiftyBibtex/issues), and [Pull Requests](https://github.com/MaxHaertwig/SwiftyBibtex/pulls) are always welcome.
