@@ -1,6 +1,7 @@
 public enum Month: Int, CaseIterable {
     case january = 1, february, march, april, may, june, july, august, september, october, november, december
-    
+
+    /// Initializes the month with its name or its 3-letter abbreviation. Returns nil if the given string is invalid.
     init?(_ string: String) {
         let lowercasedString = string.lowercased()
         if lowercasedString == "jan" || lowercasedString == "january" { self = .january }

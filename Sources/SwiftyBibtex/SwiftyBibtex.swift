@@ -1,7 +1,9 @@
 import Antlr4
 import BibtexParser
 
-public struct SwiftyBibtex {
+/// SwiftyBibtex's main interface.
+public enum SwiftyBibtex {
+    /// Parses the given input and returns all recognized publications, preambles, comments, and encountered errors.
     public static func parse(_ input: String) throws -> (publications: [Publication], preambles: [String], comments: [String], errors: [BibtexParserError]) {
         let stringListener = BibtexStringListener()
         let bibtexParser1 = parser(for: input)

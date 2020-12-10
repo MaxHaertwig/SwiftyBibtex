@@ -1,4 +1,4 @@
-public struct ParsedPublication: Equatable {
+internal struct ParsedPublication: Equatable {
     let type: String
     let citationKey: String
     let fields: [String: String]

@@ -1,24 +1,26 @@
+/// The type of a publication.
 public enum PublicationType: Equatable, CustomStringConvertible {
     case article, book, booklet, inBook, inCollection, inProceedings, manual, masterThesis, misc, phdThesis, proceedings, techReport, unpublished
     case other(String)
     
     init(_ type: String) {
-        if type == "article" { self = .article }
-        else if type == "book" { self = .book }
-        else if type == "booklet" { self = .booklet }
-        else if type == "inbook" { self = .inBook }
-        else if type == "incollection" { self = .inCollection }
-        else if type == "inproceedings" { self = .inProceedings }
-        else if type == "manual" { self = .manual }
-        else if type == "masterthesis" { self = .masterThesis }
-        else if type == "misc" { self = .misc }
-        else if type == "phdthesis" { self = .phdThesis }
-        else if type == "proceedings" { self = .proceedings }
-        else if type == "techreport" { self = .techReport }
-        else if type == "unpublished" { self = .unpublished }
+        let lowercasedType = type.lowercased()
+        if lowercasedType == "article" { self = .article }
+        else if lowercasedType == "book" { self = .book }
+        else if lowercasedType == "booklet" { self = .booklet }
+        else if lowercasedType == "inbook" { self = .inBook }
+        else if lowercasedType == "incollection" { self = .inCollection }
+        else if lowercasedType == "inproceedings" { self = .inProceedings }
+        else if lowercasedType == "manual" { self = .manual }
+        else if lowercasedType == "masterthesis" { self = .masterThesis }
+        else if lowercasedType == "misc" { self = .misc }
+        else if lowercasedType == "phdthesis" { self = .phdThesis }
+        else if lowercasedType == "proceedings" { self = .proceedings }
+        else if lowercasedType == "techreport" { self = .techReport }
+        else if lowercasedType == "unpublished" { self = .unpublished }
         else { self = .other(type) }
     }
-    
+
     public var description: String {
         switch self {
         case .article:
@@ -53,8 +55,14 @@ public enum PublicationType: Equatable, CustomStringConvertible {
     }
 }
 
+/// A publication.
 public protocol Publication {
+    /// The type of the publication.
     var publicationType: PublicationType { get }
+
+    /// The key that can be used to cite this publication.
     var citationKey: String { get }
+
+    /// Fields containing information about the publication.
     var fields: [String: String] { get }
 }
