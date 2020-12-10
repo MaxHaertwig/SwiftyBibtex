@@ -179,7 +179,7 @@ final class PublicationTypesTests: XCTestCase {
         if let requiredField = requiredField {
             let fieldsString1 = fields.filter { $0.key != requiredField }.map { "\($0.key) = {\($0.value)}" }.joined(separator: ", ")
             let input1 = "@\(publicationType){citationKey, \(fieldsString1)}"
-            let publications1 = try! SwiftyBibtex.parse(input1)
+            let publications1 = try! SwiftyBibtex.parse(input1).publications
             XCTAssertEqual(publications1.count, 1)
             XCTAssertEqual(publications1[0].publicationType, publicationType)
             XCTAssertFalse(publications1[0] is T)
@@ -187,7 +187,7 @@ final class PublicationTypesTests: XCTestCase {
         
         let fieldsString2 = fields.map { "\($0.key) = {\($0.value)}" }.joined(separator: ", ")
         let input2 = "@\(publicationType){citationKey, \(fieldsString2)}"
-        let publications2 = try! SwiftyBibtex.parse(input2)
+        let publications2 = try! SwiftyBibtex.parse(input2).publications
         XCTAssertEqual(publications2.count, 1)
         
         let publication = publications2[0]

@@ -6,4 +6,5 @@
 .idea/
 gen/
 xcuserdata/
+*.iml
 *.tokens

@@ -4,7 +4,7 @@ import XCTest
 
 final class BibtexPublicationListenerTests: XCTestCase {
     private static func parse(_ input: String, stringDefinitions: [String: String] = [:]) -> [ParsedPublication] {
-        let listener = BibtexPublicationListener(stringDefinitions: stringDefinitions)
+        let listener = BibtexListener(stringDefinitions: stringDefinitions)
         let bibtexParser = SwiftyBibtex.parser(for: input)
         try! ParseTreeWalker().walk(listener, try! bibtexParser.root())
         return listener.publications
@@ -70,6 +70,18 @@ final class BibtexPublicationListenerTests: XCTestCase {
         XCTAssertEqual(publications.count, 1)
         XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "foo"]))
     }
+
+    func testComments() {
+        let input = """
+        @comment {foo bar}
+        @CoMMent( foo @{}{{}} = bar ""    )
+        """
+
+        let bibtexParser = SwiftyBibtex.parser(for: input)
+        let listener = BibtexListener()
+        try! ParseTreeWalker().walk(listener, try! bibtexParser.root())
+        XCTAssertEqual(listener.comments, ["foo bar", " foo @{}{{}} = bar \"\"    "])
+    }
     
     private func testCurlyFieldValue(_ fieldValue: String) {
         testFieldValue("{\(fieldValue)}", expected: fieldValue)
@@ -96,6 +108,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         ("testFieldValues", testFieldValues),
         ("testFieldValueConcat", testFieldValueConcat),
         ("testFillInStringDefinition", testFillInStringDefinition),
-        ("testParantheses", testParantheses)
+        ("testParantheses", testParantheses),
+        ("testComments", testComments)
     ]
 }

@@ -14,14 +14,17 @@ final class SwiftyBibtexTests: XCTestCase {
             field3 = "c" # foo
         }
         @String{foo = "c"}
+        @Comment(bar)
         """
-        let publications = try! SwiftyBibtex.parse(input)
-        XCTAssertEqual(publications.count, 1)
+        let result = try! SwiftyBibtex.parse(input)
+        XCTAssertEqual(result.publications.count, 1)
         
-        let publication = publications[0]
+        let publication = result.publications[0]
         XCTAssertEqual(publication.publicationType, .article)
         XCTAssertEqual(publication.citationKey, "citationKey")
         XCTAssertEqual(publication.fields, ["field1": "a", "field2": "b {b} b", "field3": "cc"])
+
+        XCTAssertEqual(result.comments, ["bar"])
     }
     
     static var allTests = [
