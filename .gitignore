@@ -3,4 +3,7 @@
 /Packages
 /*.xcodeproj
 .antlr/
+.idea/
+gen/
 xcuserdata/
+*.tokens

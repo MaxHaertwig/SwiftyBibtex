@@ -7,7 +7,7 @@ final class BibtexCommentListenerTests: XCTestCase {
     func testComments() {
         let input = """
         @comment {foo bar}
-        @CoMMent{ foo @{}{{}} = bar ""    }
+        @CoMMent( foo @{}{{}} = bar ""    )
         """
 
         let bibtexParser = SwiftyBibtex.parser(for: input)

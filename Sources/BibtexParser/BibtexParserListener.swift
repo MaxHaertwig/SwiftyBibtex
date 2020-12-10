@@ -103,15 +103,27 @@ public protocol BibtexParserListener: ParseTreeListener {
 	 */
 	func exitFieldString(_ ctx: BibtexParser.FieldStringContext)
 	/**
-	 * Enter a parse tree produced by {@link BibtexParser#curlyFieldValue}.
+	 * Enter a parse tree produced by {@link BibtexParser#curlyValue}.
 	 - Parameters:
 	   - ctx: the parse tree
 	 */
-	func enterCurlyFieldValue(_ ctx: BibtexParser.CurlyFieldValueContext)
+	func enterCurlyValue(_ ctx: BibtexParser.CurlyValueContext)
 	/**
-	 * Exit a parse tree produced by {@link BibtexParser#curlyFieldValue}.
+	 * Exit a parse tree produced by {@link BibtexParser#curlyValue}.
 	 - Parameters:
 	   - ctx: the parse tree
 	 */
-	func exitCurlyFieldValue(_ ctx: BibtexParser.CurlyFieldValueContext)
+	func exitCurlyValue(_ ctx: BibtexParser.CurlyValueContext)
+	/**
+	 * Enter a parse tree produced by {@link BibtexParser#parenValue}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func enterParenValue(_ ctx: BibtexParser.ParenValueContext)
+	/**
+	 * Exit a parse tree produced by {@link BibtexParser#parenValue}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func exitParenValue(_ ctx: BibtexParser.ParenValueContext)
 }

@@ -7,7 +7,7 @@ final class BibtexStringListenerTests: XCTestCase {
     func testDefinitions() {
         let input = """
         @string { foo = "bar" }
-        @StrINg{fooBar = " baz  "    }
+        @StrINg(fooBar = " baz  "    )
         """
         
         let bibtexParser = SwiftyBibtex.parser(for: input)

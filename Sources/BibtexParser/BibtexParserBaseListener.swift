@@ -119,13 +119,26 @@ open class BibtexParserBaseListener: BibtexParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	open func enterCurlyFieldValue(_ ctx: BibtexParser.CurlyFieldValueContext) { }
+	open func enterCurlyValue(_ ctx: BibtexParser.CurlyValueContext) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	open func exitCurlyFieldValue(_ ctx: BibtexParser.CurlyFieldValueContext) { }
+	open func exitCurlyValue(_ ctx: BibtexParser.CurlyValueContext) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	open func enterParenValue(_ ctx: BibtexParser.ParenValueContext) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	open func exitParenValue(_ ctx: BibtexParser.ParenValueContext) { }
 
 	/**
 	 * {@inheritDoc}

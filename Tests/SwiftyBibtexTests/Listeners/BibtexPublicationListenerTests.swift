@@ -48,7 +48,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
     func testFieldValueConcat() {
         testFieldValue("\"a\" # \"  b \"   # \" c\"", expected: "a  b  c")
     }
-    
+
     func testFillInStringDefinition() {
         let input = """
         @Article{citationKey,
@@ -58,6 +58,17 @@ final class BibtexPublicationListenerTests: XCTestCase {
         let publications = Self.parse(input, stringDefinitions: ["foo": "bar"])
         XCTAssertEqual(publications.count, 1)
         XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "barBaz"]))
+    }
+
+    func testParantheses() {
+        let input = """
+        @Article(citationKey,
+            fieldName = "foo"
+        )
+        """
+        let publications = Self.parse(input)
+        XCTAssertEqual(publications.count, 1)
+        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "foo"]))
     }
     
     private func testCurlyFieldValue(_ fieldValue: String) {
@@ -84,6 +95,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         ("testPublicationWithTwoFields", testPublicationWithTwoFields),
         ("testFieldValues", testFieldValues),
         ("testFieldValueConcat", testFieldValueConcat),
-        ("testFillInStringDefinition", testFillInStringDefinition)
+        ("testFillInStringDefinition", testFillInStringDefinition),
+        ("testParantheses", testParantheses)
     ]
 }
