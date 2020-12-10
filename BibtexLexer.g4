@@ -1,6 +1,6 @@
 lexer grammar BibtexLexer;
 
-FIELD_VALUE_CURLY_START : '=' [ \t\r\n]* '{' -> pushMode(FIELD_VALUE_CURLY_MODE) ;
+CURLY_VALUE_START : '=' [ \t\r\n]* '{' -> pushMode(CURLY_VALUE_MODE) ;
 
 AT : '@' ;
 COMMA : ',' ;
@@ -12,7 +12,7 @@ CLOSE_CURLY : '}' ;
 
 STRING : [sS] [tT] [rR] [iI] [nN] [gG] ;
 
-COMMENT_START: '@' [cC] [oO] [mM] [mM] [eE] [nN] [tT] [ \t\r\n]* '{' -> pushMode(FIELD_VALUE_CURLY_MODE) ;
+COMMENT_START: '@' [cC] [oO] [mM] [mM] [eE] [nN] [tT] [ \t\r\n]* '{' -> pushMode(CURLY_VALUE_MODE) ;
 
 NAME : [0-9a-zA-Z!?$&*+./:;^<>_`|[\]\-]+ ;
 
@@ -21,9 +21,9 @@ STRING_LITERAL : '"' ~["]* '"' ;
 WS : [ \t\r\n]+ -> skip ;
 
 
-mode FIELD_VALUE_CURLY_MODE;
+mode CURLY_VALUE_MODE;
 
-FIELD_VALUE_OPEN_CURLY : '{' -> pushMode(FIELD_VALUE_CURLY_MODE) ;
-FIELD_VALUE_CLOSE_CURLY : '}' -> popMode ;
+CURLY_VALUE_OPEN_CURLY : '{' -> pushMode(CURLY_VALUE_MODE) ;
+CURLY_VALUE_CLOSE_CURLY : '}' -> popMode ;
 
-FIELD_VALUE_CURLY: ~[{}]+ ;
+CURLY_VALUE : ~[{}]+ ;

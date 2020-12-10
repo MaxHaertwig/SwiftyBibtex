@@ -15,13 +15,13 @@ open class BibtexLexer: Lexer {
 	internal static let _sharedContextCache = PredictionContextCache()
 
 	public
-	static let FIELD_VALUE_CURLY_START=1, AT=2, COMMA=3, EQUALS=4, HASH=5, 
-            OPEN_CURLY=6, CLOSE_CURLY=7, STRING=8, COMMENT_START=9, NAME=10, 
-            STRING_LITERAL=11, WS=12, FIELD_VALUE_OPEN_CURLY=13, FIELD_VALUE_CLOSE_CURLY=14, 
-            FIELD_VALUE_CURLY=15
+	static let CURLY_VALUE_START=1, AT=2, COMMA=3, EQUALS=4, HASH=5, OPEN_CURLY=6, 
+            CLOSE_CURLY=7, STRING=8, COMMENT_START=9, NAME=10, STRING_LITERAL=11, 
+            WS=12, CURLY_VALUE_OPEN_CURLY=13, CURLY_VALUE_CLOSE_CURLY=14, 
+            CURLY_VALUE=15
 
 	public
-	static let FIELD_VALUE_CURLY_MODE=1
+	static let CURLY_VALUE_MODE=1
 	public
 	static let channelNames: [String] = [
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
@@ -29,23 +29,23 @@ open class BibtexLexer: Lexer {
 
 	public
 	static let modeNames: [String] = [
-		"DEFAULT_MODE", "FIELD_VALUE_CURLY_MODE"
+		"DEFAULT_MODE", "CURLY_VALUE_MODE"
 	]
 
 	public
 	static let ruleNames: [String] = [
-		"FIELD_VALUE_CURLY_START", "AT", "COMMA", "EQUALS", "HASH", "OPEN_CURLY", 
-		"CLOSE_CURLY", "STRING", "COMMENT_START", "NAME", "STRING_LITERAL", "WS", 
-		"FIELD_VALUE_OPEN_CURLY", "FIELD_VALUE_CLOSE_CURLY", "FIELD_VALUE_CURLY"
+		"CURLY_VALUE_START", "AT", "COMMA", "EQUALS", "HASH", "OPEN_CURLY", "CLOSE_CURLY", 
+		"STRING", "COMMENT_START", "NAME", "STRING_LITERAL", "WS", "CURLY_VALUE_OPEN_CURLY", 
+		"CURLY_VALUE_CLOSE_CURLY", "CURLY_VALUE"
 	]
 
 	private static let _LITERAL_NAMES: [String?] = [
 		nil, nil, "'@'", "','", "'='", "'#'"
 	]
 	private static let _SYMBOLIC_NAMES: [String?] = [
-		nil, "FIELD_VALUE_CURLY_START", "AT", "COMMA", "EQUALS", "HASH", "OPEN_CURLY", 
+		nil, "CURLY_VALUE_START", "AT", "COMMA", "EQUALS", "HASH", "OPEN_CURLY", 
 		"CLOSE_CURLY", "STRING", "COMMENT_START", "NAME", "STRING_LITERAL", "WS", 
-		"FIELD_VALUE_OPEN_CURLY", "FIELD_VALUE_CLOSE_CURLY", "FIELD_VALUE_CURLY"
+		"CURLY_VALUE_OPEN_CURLY", "CURLY_VALUE_CLOSE_CURLY", "CURLY_VALUE"
 	]
 	public
 	static let VOCABULARY = Vocabulary(_LITERAL_NAMES, _SYMBOLIC_NAMES)

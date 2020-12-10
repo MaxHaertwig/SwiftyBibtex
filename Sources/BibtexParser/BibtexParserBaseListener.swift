@@ -54,6 +54,19 @@ open class BibtexParserBaseListener: BibtexParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	open func enterComment(_ ctx: BibtexParser.CommentContext) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	open func exitComment(_ ctx: BibtexParser.CommentContext) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	open func enterPublication(_ ctx: BibtexParser.PublicationContext) { }
 	/**
 	 * {@inheritDoc}
@@ -113,19 +126,6 @@ open class BibtexParserBaseListener: BibtexParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	open func exitCurlyFieldValue(_ ctx: BibtexParser.CurlyFieldValueContext) { }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	open func enterComment(_ ctx: BibtexParser.CommentContext) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	open func exitComment(_ ctx: BibtexParser.CommentContext) { }
 
 	/**
 	 * {@inheritDoc}
