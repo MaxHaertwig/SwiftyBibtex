@@ -2,22 +2,27 @@ import Antlr4
 import BibtexParser
 
 public struct SwiftyBibtex {
-    public static func parse(_ input: String) throws -> (publications: [Publication], preambles: [String], comments: [String]) {
+    public static func parse(_ input: String) throws -> (publications: [Publication], preambles: [String], comments: [String], errors: [BibtexParserError]) {
         let stringListener = BibtexStringListener()
         let bibtexParser1 = parser(for: input)
         try ParseTreeWalker().walk(stringListener, try bibtexParser1.root())
 
         let bibtexListener = BibtexListener(stringDefinitions: stringListener.definitions)
-        let bibtexParser2 = parser(for: input)
+        let errorListener = BibtexErrorListener()
+        let bibtexParser2 = parser(for: input, errorListener: errorListener)
         try ParseTreeWalker().walk(bibtexListener, try bibtexParser2.root())
-        return (processParsedPublications(bibtexListener.publications), bibtexListener.preambles, bibtexListener.comments)
+        return (processParsedPublications(bibtexListener.publications), bibtexListener.preambles, bibtexListener.comments, errorListener.errors)
     }
 
-    internal static func parser(for input: String) -> BibtexParser {
+    internal static func parser(for input: String, errorListener: ANTLRErrorListener? = nil) -> BibtexParser {
         let inputStream = ANTLRInputStream(input)
         let lexer = BibtexLexer(inputStream)
         let tokenStream = CommonTokenStream(lexer)
-        return try! BibtexParser(tokenStream)
+        let parser = try! BibtexParser(tokenStream)
+        if let errorListener = errorListener {
+            parser.addErrorListener(errorListener)
+        }
+        return parser
     }
     
     private static func processParsedPublications(_ parsedPublications: [ParsedPublication]) -> [Publication] {

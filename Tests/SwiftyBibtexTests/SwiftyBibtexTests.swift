@@ -16,6 +16,7 @@ final class SwiftyBibtexTests: XCTestCase {
         @String{foo = "c"}
         @Preamble{"bar" # foo}
         @Comment(bar)
+        error
         """
         let result = try! SwiftyBibtex.parse(input)
         XCTAssertEqual(result.publications.count, 1)
@@ -27,6 +28,10 @@ final class SwiftyBibtexTests: XCTestCase {
 
         XCTAssertEqual(result.preambles, ["barc"])
         XCTAssertEqual(result.comments, ["bar"])
+
+        XCTAssertEqual(result.errors.count, 1)
+        XCTAssertEqual(result.errors[0].line, 9)
+        XCTAssertEqual(result.errors[0].charPositionInLine, 0)
     }
     
     static var allTests = [
