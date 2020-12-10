@@ -1,6 +1,8 @@
 # SwiftyBibtex
 
-A Swift library for parsing [Bibtex](http://www.bibtex.org) files.
+A Swift library for parsing [BibTeX](http://www.bibtex.org) files.
+
+Disclaimer: This library is still under development.
 
 ## Usage
 
@@ -13,7 +15,7 @@ let input = """
     title={SwiftyBibtex},
     journal={New Repositories},
     year={2020},
-    note={A Swift library for parsing Bibtex files.}
+    note={A Swift library for parsing BibTeX files.}
 }
 @String{me="Max"}
 @Preamble{"Maintained by " # me}
@@ -64,7 +66,7 @@ if let article = publication as? Article {
     article.title           // "SwiftyBibtex"
     article.journal         // "New Repositories"
     article.year            // 2020
-    article.fields["note"]  // Optional("A Swift library for parsing Bibtex files.")
+    article.fields["note"]  // Optional("A Swift library for parsing BibTeX files.")
 }
 ```
 
@@ -104,5 +106,13 @@ https://github.com/MaxHaertwig/SwiftyBibtex.git
 Open `Package.swift` and add the following line to your package's dependencies:
 
 ```swift
-.package(url: "https://github.com/MaxHaertwig/SwiftyBibtex.git", .upToNextManjor(from: "1.0.0"))
+.package(url: "https://github.com/MaxHaertwig/SwiftyBibtex.git", .branch("main"))
 ```
+
+## Contributions
+
+Feedback, [Issues](https://github.com/MaxHaertwig/SwiftyBibtex/issues), and [Pull Requests](https://github.com/MaxHaertwig/SwiftyBibtex/pulls) are always welcome.
+
+## License
+
+_SwiftyBibtex_ is available under the _MIT license_. See [LICENSE](./LICENSE) for more info.
