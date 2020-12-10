@@ -9,7 +9,7 @@ let package = Package(
         .library(name: "SwiftyBibtex", targets: ["SwiftyBibtex"])
     ],
     dependencies: [
-        .package(name: "Antlr4", url: "https://github.com/MaxHaertwig/ANTLR4-Swift.git", .branch("main"))
+        .package(name: "Antlr4", url: "https://github.com/MaxHaertwig/ANTLR4-Swift.git", .upToNextMinor(from: "4.9.0"))
     ],
     targets: [
         .target(name: "BibtexParser", dependencies: ["Antlr4"]),

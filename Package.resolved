@@ -5,9 +5,9 @@
         "package": "Antlr4",
         "repositoryURL": "https://github.com/MaxHaertwig/ANTLR4-Swift.git",
         "state": {
-          "branch": "main",
-          "revision": "0cf468f7c9c28f3d78bad16537ff888278fd8111",
-          "version": null
+          "branch": null,
+          "revision": "519edc831ee78959ad3fbe3a2aa05a844d74a5a7",
+          "version": "4.9.0"
         }
       }
     ]
