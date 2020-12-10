@@ -2,7 +2,7 @@ import Antlr4
 import BibtexParser
 
 public struct SwiftyBibtex {
-    public static func parse(_ input: String) throws -> (publications: [Publication], comments: [String]) {
+    public static func parse(_ input: String) throws -> (publications: [Publication], preambles: [String], comments: [String]) {
         let stringListener = BibtexStringListener()
         let bibtexParser1 = parser(for: input)
         try ParseTreeWalker().walk(stringListener, try bibtexParser1.root())
@@ -10,7 +10,7 @@ public struct SwiftyBibtex {
         let bibtexListener = BibtexListener(stringDefinitions: stringListener.definitions)
         let bibtexParser2 = parser(for: input)
         try ParseTreeWalker().walk(bibtexListener, try bibtexParser2.root())
-        return (processParsedPublications(bibtexListener.publications), bibtexListener.comments)
+        return (processParsedPublications(bibtexListener.publications), bibtexListener.preambles, bibtexListener.comments)
     }
 
     internal static func parser(for input: String) -> BibtexParser {

@@ -71,6 +71,18 @@ final class BibtexPublicationListenerTests: XCTestCase {
         XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "foo"]))
     }
 
+    func testPreambles() {
+        let input = """
+        @preamble {"foo"}
+        @PrEaMbLe( " bar bazz {}  "  )
+        """
+
+        let bibtexParser = SwiftyBibtex.parser(for: input)
+        let listener = BibtexListener()
+        try! ParseTreeWalker().walk(listener, try! bibtexParser.root())
+        XCTAssertEqual(listener.preambles, ["foo", " bar bazz {}  "])
+    }
+
     func testComments() {
         let input = """
         @comment {foo bar}
@@ -109,6 +121,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         ("testFieldValueConcat", testFieldValueConcat),
         ("testFillInStringDefinition", testFillInStringDefinition),
         ("testParantheses", testParantheses),
+        ("testPreambles", testPreambles),
         ("testComments", testComments)
     ]
 }

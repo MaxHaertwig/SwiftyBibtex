@@ -14,6 +14,7 @@ final class SwiftyBibtexTests: XCTestCase {
             field3 = "c" # foo
         }
         @String{foo = "c"}
+        @Preamble{"bar" # foo}
         @Comment(bar)
         """
         let result = try! SwiftyBibtex.parse(input)
@@ -24,6 +25,7 @@ final class SwiftyBibtexTests: XCTestCase {
         XCTAssertEqual(publication.citationKey, "citationKey")
         XCTAssertEqual(publication.fields, ["field1": "a", "field2": "b {b} b", "field3": "cc"])
 
+        XCTAssertEqual(result.preambles, ["barc"])
         XCTAssertEqual(result.comments, ["bar"])
     }
     

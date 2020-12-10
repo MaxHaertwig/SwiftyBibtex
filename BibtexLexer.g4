@@ -14,6 +14,8 @@ CLOSE_PAREN : ')' ;
 
 STRING : [sS] [tT] [rR] [iI] [nN] [gG] ;
 
+PREAMBLE : [pP] [rR] [eE] [aA] [mM] [bB] [lL] [eE] ;
+
 fragment COMMENT_START: '@' [cC] [oO] [mM] [mM] [eE] [nN] [tT] [ \t\r\n]* ;
 COMMENT_START_CURLY: COMMENT_START '{' -> pushMode(CURLY_VALUE_MODE) ;
 COMMENT_START_PAREN: COMMENT_START '(' -> pushMode(PAREN_VALUE_MODE) ;

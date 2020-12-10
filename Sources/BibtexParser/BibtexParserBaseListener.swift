@@ -54,6 +54,19 @@ open class BibtexParserBaseListener: BibtexParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	open func enterPreamble(_ ctx: BibtexParser.PreambleContext) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	open func exitPreamble(_ ctx: BibtexParser.PreambleContext) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	open func enterComment(_ ctx: BibtexParser.CommentContext) { }
 	/**
 	 * {@inheritDoc}
@@ -100,6 +113,19 @@ open class BibtexParserBaseListener: BibtexParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	open func exitField(_ ctx: BibtexParser.FieldContext) { }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	open func enterConcatString(_ ctx: BibtexParser.ConcatStringContext) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	open func exitConcatString(_ ctx: BibtexParser.ConcatStringContext) { }
 
 	/**
 	 * {@inheritDoc}

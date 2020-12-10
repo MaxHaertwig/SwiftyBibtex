@@ -43,6 +43,18 @@ public protocol BibtexParserListener: ParseTreeListener {
 	 */
 	func exitString(_ ctx: BibtexParser.StringContext)
 	/**
+	 * Enter a parse tree produced by {@link BibtexParser#preamble}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func enterPreamble(_ ctx: BibtexParser.PreambleContext)
+	/**
+	 * Exit a parse tree produced by {@link BibtexParser#preamble}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func exitPreamble(_ ctx: BibtexParser.PreambleContext)
+	/**
 	 * Enter a parse tree produced by {@link BibtexParser#comment}.
 	 - Parameters:
 	   - ctx: the parse tree
@@ -90,6 +102,18 @@ public protocol BibtexParserListener: ParseTreeListener {
 	   - ctx: the parse tree
 	 */
 	func exitField(_ ctx: BibtexParser.FieldContext)
+	/**
+	 * Enter a parse tree produced by {@link BibtexParser#concatString}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func enterConcatString(_ ctx: BibtexParser.ConcatStringContext)
+	/**
+	 * Exit a parse tree produced by {@link BibtexParser#concatString}.
+	 - Parameters:
+	   - ctx: the parse tree
+	 */
+	func exitConcatString(_ ctx: BibtexParser.ConcatStringContext)
 	/**
 	 * Enter a parse tree produced by {@link BibtexParser#fieldString}.
 	 - Parameters:
