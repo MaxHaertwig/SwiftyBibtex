@@ -94,6 +94,19 @@ final class BibtexPublicationListenerTests: XCTestCase {
         try! ParseTreeWalker().walk(listener, try! bibtexParser.root())
         XCTAssertEqual(listener.comments, ["foo bar", " foo @{}{{}} = bar \"\"    "])
     }
+
+    func testMultilineFields() {
+        let input = """
+        @Article{citationKey,
+            fieldName = {foo
+                    bar
+                    baz}
+        }
+        """
+        let publications = Self.parse(input)
+        XCTAssertEqual(publications.count, 1)
+        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "foo bar baz"]))
+    }
     
     private func testCurlyFieldValue(_ fieldValue: String) {
         testFieldValue("{\(fieldValue)}", expected: fieldValue)
@@ -122,6 +135,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         ("testFillInStringDefinition", testFillInStringDefinition),
         ("testParantheses", testParantheses),
         ("testPreambles", testPreambles),
-        ("testComments", testComments)
+        ("testComments", testComments),
+        ("testMultilineFields", testMultilineFields)
     ]
 }

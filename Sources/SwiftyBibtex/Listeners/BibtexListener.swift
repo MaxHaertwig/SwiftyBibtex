@@ -16,9 +16,16 @@ internal final class BibtexListener : BibtexParserBaseListener {
         fields = [:]
     }
 
-    override func enterField(_ ctx: BibtexParser.FieldContext) {
+    override func exitField(_ ctx: BibtexParser.FieldContext) {
         if let fieldName = ctx.fieldName?.getText(), let fieldValue = ctx.curlyValue()?.getText() ?? assembleConcatString(ctx.concatString()) {
             fields[fieldName] = fieldValue
+                .replacingOccurrences(of: "\r\n", with: "\n")
+                .split(separator: "\n")
+                .enumerated()
+                .map { i, line in
+                    return i == 0 ? String(line) : line.replacingOccurrences(of: "^\\s+", with: "", options: .regularExpression)
+                }
+                .joined(separator: " ")
         }
     }
     
