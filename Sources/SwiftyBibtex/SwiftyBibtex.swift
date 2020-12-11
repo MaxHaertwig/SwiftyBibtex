@@ -4,7 +4,7 @@ import BibtexParser
 /// SwiftyBibtex's main interface.
 public enum SwiftyBibtex {
     /// Parses the given input and returns all recognized publications, preambles, comments, and encountered errors.
-    public static func parse(_ input: String) throws -> (publications: [Publication], preambles: [String], comments: [String], errors: [BibtexParserError]) {
+    public static func parse(_ input: String) throws -> (publications: [Publication], preambles: [String], comments: [String], errors: [ParserError]) {
         let stringListener = BibtexStringListener()
         let bibtexParser1 = parser(for: input)
         try ParseTreeWalker().walk(stringListener, try bibtexParser1.root())
@@ -22,6 +22,7 @@ public enum SwiftyBibtex {
         let tokenStream = CommonTokenStream(lexer)
         let parser = try! BibtexParser(tokenStream)
         if let errorListener = errorListener {
+            lexer.addErrorListener(errorListener)
             parser.addErrorListener(errorListener)
         }
         return parser

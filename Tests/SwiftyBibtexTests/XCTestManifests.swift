@@ -4,7 +4,15 @@ import XCTest
 public func allTests() -> [XCTestCaseEntry] {
     return [
         testCase(SwiftyBibtexTests.allTests),
+        // Errors
+        testCase(ExtraneousInputParserErrorTests.allTests),
+        testCase(MismatchedInputParserErrorTests.allTests),
+        testCase(MissingSymbolParserErrorTests.allTests),
+        testCase(NoViableAlternativeParserErrorTests.allTests),
+        testCase(ParserErrorTests.allTests),
+        testCase(TokenRecognitionParserErrorTests.allTests),
         // Listeners
+        testCase(BibtexErrorListenerTests.allTests),
         testCase(BibtexListenerTests.allTests),
         testCase(BibtexStringListenerTests.allTests),
         // Model

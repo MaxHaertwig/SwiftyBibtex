@@ -89,6 +89,23 @@ for error in result.errors {
 }
 ```
 
+Errors are represented by one of the following types:
+
+- `ExtraneousInputParserError`
+- `MismatchedInputParserError`
+- `MissingSymbolParserError`
+- `NoViableAlternativeParserError`
+- `TokenRecognitionParserError`
+
+Casting an error to one of these types allows you to get more information about it:
+
+```swift
+if let extraneousInputError = error as? ExtraneousInputParserError {
+    print(extraneousInputError.offendingSymbol)
+    print(extraneousInputError.expectedSymbols)
+}
+```
+
 ## ⚙️ Installation
 
 ### Swift Package Manager

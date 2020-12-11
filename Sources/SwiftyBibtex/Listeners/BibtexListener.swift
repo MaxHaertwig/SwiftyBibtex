@@ -17,7 +17,7 @@ internal final class BibtexListener : BibtexParserBaseListener {
     }
 
     override func enterField(_ ctx: BibtexParser.FieldContext) {
-        if let fieldName = ctx.fieldName.getText(), let fieldValue = ctx.curlyValue()?.getText() ?? assembleConcatString(ctx.concatString()) {
+        if let fieldName = ctx.fieldName?.getText(), let fieldValue = ctx.curlyValue()?.getText() ?? assembleConcatString(ctx.concatString()) {
             fields[fieldName] = fieldValue
         }
     }
