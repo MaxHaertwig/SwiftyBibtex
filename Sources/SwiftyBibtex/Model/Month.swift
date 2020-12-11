@@ -1,4 +1,4 @@
-public enum Month: Int, CaseIterable {
+public enum Month: Int, CustomStringConvertible, CaseIterable {
     case january = 1, february, march, april, may, june, july, august, september, october, november, december
 
     /// Initializes the month with its name or its 3-letter abbreviation. Returns nil if the given string is invalid.
@@ -17,5 +17,9 @@ public enum Month: Int, CaseIterable {
         else if lowercasedString == "nov" || lowercasedString == "november" { self = .november }
         else if lowercasedString == "dec" || lowercasedString == "december" { self = .december }
         else { return nil }
+    }
+
+    public var description: String {
+        return ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][rawValue - 1]
     }
 }

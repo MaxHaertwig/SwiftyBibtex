@@ -28,8 +28,15 @@ final class MonthTests: XCTestCase {
         }
     }
 
+    func testDescription() {
+        for monthName in ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] {
+            XCTAssertEqual(Month(monthName)!.description, monthName)
+        }
+    }
+
     static var allTests = [
         ("testRawValue", testRawValue),
-        ("testStringInitializer", testStringInitializer)
+        ("testStringInitializer", testStringInitializer),
+        ("testDescription", testDescription)
     ]
 }
