@@ -14,6 +14,6 @@ let package = Package(
     targets: [
         .target(name: "BibtexParser", dependencies: ["Antlr4"]),
         .target(name: "SwiftyBibtex", dependencies: ["BibtexParser"]),
-        .testTarget(name: "SwiftyBibtexTests", dependencies: ["SwiftyBibtex"])
+        .testTarget(name: "SwiftyBibtexTests", dependencies: ["SwiftyBibtex"], resources: [.copy("Resources")])
     ]
 )
