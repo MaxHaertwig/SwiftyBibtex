@@ -10,6 +10,6 @@ public struct MissingSymbolParserError: ParserError, Equatable {
     public let location: String
 
     public var message: String {
-        return "missing \(missingSymbol) at '\(location)'"
+        return "Missing \(missingSymbol) at '\(location)'"
     }
 }

@@ -7,6 +7,6 @@ public struct TokenRecognitionParserError: ParserError, Equatable {
     public let offendingSymbol: String
 
     public var message: String {
-        return "token recognition error at '\(offendingSymbol)'"
+        return "Token recognition error at '\(offendingSymbol)'"
     }
 }

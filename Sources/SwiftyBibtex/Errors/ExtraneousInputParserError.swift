@@ -11,6 +11,6 @@ public struct ExtraneousInputParserError: ParserError, Equatable {
 
     public var message: String {
         let expectedSymbolsString = expectedSymbols.count == 1 ? expectedSymbols[0] : "{" + expectedSymbols.joined(separator: ", ") + "}"
-        return "extraneous input '\(offendingSymbol)' expecting \(expectedSymbolsString)"
+        return "Extraneous input '\(offendingSymbol)' expecting \(expectedSymbolsString)"
     }
 }

@@ -11,6 +11,6 @@ public struct MismatchedInputParserError: ParserError, Equatable {
 
     public var message: String {
         let expectedSymbolsString = expectedSymbols.count == 1 ? expectedSymbols[0] : "{" + expectedSymbols.joined(separator: ", ") + "}"
-        return "mismatched input '\(offendingSymbol)' expecting \(expectedSymbolsString)"
+        return "Mismatched input '\(offendingSymbol)' expecting \(expectedSymbolsString)"
     }
 }

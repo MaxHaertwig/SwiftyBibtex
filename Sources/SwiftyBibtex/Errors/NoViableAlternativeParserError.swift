@@ -7,6 +7,6 @@ public struct NoViableAlternativeParserError: ParserError, Equatable {
     public let offendingSymbol: String
 
     public var message: String {
-        return "no viable alternative at input '\(offendingSymbol)'"
+        return "No viable alternative at input '\(offendingSymbol)'"
     }
 }

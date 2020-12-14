@@ -12,6 +12,6 @@ public protocol ParserError: CustomStringConvertible {
 
 public extension ParserError {
     var description: String {
-        return "line \(line):\(charPositionInLine) \(message)"
+        return "Error: line \(line):\(charPositionInLine) \(message)"
     }
 }
