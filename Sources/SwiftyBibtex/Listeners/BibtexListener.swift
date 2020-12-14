@@ -4,6 +4,7 @@ internal final class BibtexListener : BibtexParserBaseListener {
     private(set) var publications = [ParsedPublication]()
     private(set) var preambles = [String]()
     private(set) var comments = [String]()
+    private(set) var errors = [ParserError]()
 
     private var stringDefinitions: [String: String]
     private var fields = [String: String]()
@@ -48,13 +49,17 @@ internal final class BibtexListener : BibtexParserBaseListener {
     }
 
     private func assembleConcatString(_ ctx: BibtexParser.ConcatStringContext?) -> String? {
-        return ctx?.fieldString().map { $0.getText() }.reduce("") { (prefix: String, string: String) in
+        return ctx?.fieldString().reduce("") { (prefix: String, context: BibtexParser.FieldStringContext) in
+            let string = context.getText()
             if string.hasPrefix("\"") {
                 return prefix + string.dropFirst().dropLast()
             } else if let replacement = stringDefinitions[string] {
                 return prefix + replacement
             }
-            return prefix
+
+            let error = StringDefinitionNotFoundParserError(line: context.getStart()?.getLine() ?? 1, charPositionInLine: context.getStart()?.getCharPositionInLine() ?? 0, string: string)
+            errors.append(error)
+            return prefix + string
         }
     }
 }

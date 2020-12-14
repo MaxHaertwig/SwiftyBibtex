@@ -3,11 +3,11 @@ import XCTest
 @testable import SwiftyBibtex
 
 final class BibtexPublicationListenerTests: XCTestCase {
-    private static func parse(_ input: String, stringDefinitions: [String: String] = [:]) -> [ParsedPublication] {
+    private static func parse(_ input: String, stringDefinitions: [String: String] = [:]) -> BibtexListener {
         let listener = BibtexListener(stringDefinitions: stringDefinitions)
         let bibtexParser = SwiftyBibtex.parser(for: input)
         try! ParseTreeWalker().walk(listener, try! bibtexParser.root())
-        return listener.publications
+        return listener
     }
     
     override func setUp() {
@@ -20,7 +20,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
             fieldName = {fieldValue}
         }
         """
-        let publications = Self.parse(input)
+        let publications = Self.parse(input).publications
         XCTAssertEqual(publications.count, 1)
         XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "fieldValue"]))
     }
@@ -32,7 +32,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
             fieldName2 = \"fieldValue2\"
         }
         """
-        let publications = Self.parse(input)
+        let publications = Self.parse(input).publications
         XCTAssertEqual(publications.count, 1)
         XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "fieldValue", "fieldName2": "fieldValue2"]))
     }
@@ -55,7 +55,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
             fieldName = foo # "Baz"
         }
         """
-        let publications = Self.parse(input, stringDefinitions: ["foo": "bar"])
+        let publications = Self.parse(input, stringDefinitions: ["foo": "bar"]).publications
         XCTAssertEqual(publications.count, 1)
         XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "barBaz"]))
     }
@@ -66,7 +66,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
             fieldName = "foo"
         )
         """
-        let publications = Self.parse(input)
+        let publications = Self.parse(input).publications
         XCTAssertEqual(publications.count, 1)
         XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "foo"]))
     }
@@ -76,11 +76,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         @preamble {"foo"}
         @PrEaMbLe( " bar bazz {}  "  )
         """
-
-        let bibtexParser = SwiftyBibtex.parser(for: input)
-        let listener = BibtexListener()
-        try! ParseTreeWalker().walk(listener, try! bibtexParser.root())
-        XCTAssertEqual(listener.preambles, ["foo", " bar bazz {}  "])
+        XCTAssertEqual(Self.parse(input).preambles, ["foo", " bar bazz {}  "])
     }
 
     func testComments() {
@@ -88,11 +84,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         @comment {foo bar}
         @CoMMent( foo @{}{{}} = bar ""    )
         """
-
-        let bibtexParser = SwiftyBibtex.parser(for: input)
-        let listener = BibtexListener()
-        try! ParseTreeWalker().walk(listener, try! bibtexParser.root())
-        XCTAssertEqual(listener.comments, ["foo bar", " foo @{}{{}} = bar \"\"    "])
+        XCTAssertEqual(Self.parse(input).comments, ["foo bar", " foo @{}{{}} = bar \"\"    "])
     }
 
     func testMultilineFields() {
@@ -103,9 +95,22 @@ final class BibtexPublicationListenerTests: XCTestCase {
                     baz}
         }
         """
-        let publications = Self.parse(input)
+        let publications = Self.parse(input).publications
         XCTAssertEqual(publications.count, 1)
         XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "foo bar baz"]))
+    }
+
+    func testStringDefinitionNotFoundParserError() {
+        let input = """
+        @Article{citationKey,
+            fieldName = foo # "bar" # baz
+        }
+        """
+        let errors = Self.parse(input).errors
+        XCTAssertEqual(errors.count, 2)
+        XCTAssert(errors[0] is StringDefinitionNotFoundParserError && errors[1] is StringDefinitionNotFoundParserError)
+        XCTAssertEqual(errors[0] as! StringDefinitionNotFoundParserError, StringDefinitionNotFoundParserError(line: 2, charPositionInLine: 16, string: "foo"))
+        XCTAssertEqual(errors[1] as! StringDefinitionNotFoundParserError, StringDefinitionNotFoundParserError(line: 2, charPositionInLine: 30, string: "baz"))
     }
     
     private func testCurlyFieldValue(_ fieldValue: String) {
@@ -122,7 +127,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
             fieldName = \(fieldValue)
         }
         """
-        let publications = Self.parse(input)
+        let publications = Self.parse(input).publications
         XCTAssertEqual(publications.count, 1)
         XCTAssertEqual(publications[0].fields, ["fieldname": expected])
     }

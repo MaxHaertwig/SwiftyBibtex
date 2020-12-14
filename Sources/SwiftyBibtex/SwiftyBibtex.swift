@@ -13,7 +13,7 @@ public enum SwiftyBibtex {
         let errorListener = BibtexErrorListener()
         let bibtexParser2 = parser(for: input, errorListener: errorListener)
         try ParseTreeWalker().walk(bibtexListener, try bibtexParser2.root())
-        return (processParsedPublications(bibtexListener.publications), bibtexListener.preambles, bibtexListener.comments, errorListener.errors)
+        return (processParsedPublications(bibtexListener.publications), bibtexListener.preambles, bibtexListener.comments, errorListener.errors + bibtexListener.errors)
     }
 
     internal static func parser(for input: String, errorListener: ANTLRErrorListener? = nil) -> BibtexParser {

@@ -95,6 +95,7 @@ Errors are represented by one of the following types:
 - `MismatchedInputParserError`
 - `MissingSymbolParserError`
 - `NoViableAlternativeParserError`
+- `StringDefinitionNotFoundParserError`
 - `TokenRecognitionParserError`
 
 Casting an error to one of these types allows you to get more information about it:
