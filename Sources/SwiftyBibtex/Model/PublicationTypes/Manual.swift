@@ -1,5 +1,7 @@
 /// Technical documentation.
 public struct Manual: Publication {
+    internal static let requiredFields = Set(["title"])
+
     public var publicationType: PublicationType { .manual }
     public let citationKey: String
     public let fields: [String: String]

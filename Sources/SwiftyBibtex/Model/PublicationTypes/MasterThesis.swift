@@ -1,5 +1,7 @@
 /// A master's thesis.
 public struct MasterThesis: Publication {
+    internal static let requiredFields = Set(["author", "title", "school", "year"])
+
     public var publicationType: PublicationType { .masterThesis }
     public let citationKey: String
     public let fields: [String: String]

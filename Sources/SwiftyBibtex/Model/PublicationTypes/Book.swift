@@ -1,5 +1,7 @@
 /// A book with an explicit publisher.
 public struct Book: Publication {
+    internal static let requiredFields = Set(["author", "editor", "title", "publisher", "year"])
+
     public var publicationType: PublicationType { .book }
     public let citationKey: String
     public let fields: [String : String]

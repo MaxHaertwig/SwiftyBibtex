@@ -1,5 +1,7 @@
 /// An article from a journal or magazine.
 public struct Article: Publication {
+    internal static let requiredFields = Set(["author", "title", "journal", "year"])
+
     public var publicationType: PublicationType { .article }
     public let citationKey: String
     public let fields: [String : String]

@@ -1,5 +1,7 @@
 /// A part of a book, e.g., a chpater, section, or whatever and/or a range of pages.
 public struct InBook: Publication {
+    internal static let requiredFields = Set(["author", "editor", "title", "chapter", "pages", "publisher", "year"])
+
     public var publicationType: PublicationType { .inBook }
     public let citationKey: String
     public let fields: [String: String]

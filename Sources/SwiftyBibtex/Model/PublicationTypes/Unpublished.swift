@@ -1,5 +1,7 @@
 /// A document having an author and title, but not formally published.
 public struct Unpublished: Publication {
+    internal static let requiredFields = Set(["author", "title", "note"])
+
     public var publicationType: PublicationType { .unpublished }
     public let citationKey: String
     public let fields: [String: String]

@@ -3,17 +3,32 @@ import BibtexParser
 
 /// SwiftyBibtex's main interface.
 public enum SwiftyBibtex {
+    /// A tuple consisting of publications, preambles, comments, warnings, and errors.
+    public typealias BibtexResult = (publications: [Publication], preambles: [String], comments: [String], warnings: [ParserWarning], errors: [ParserError])
+
+    /// The parser's logging level.
+    public enum LoggingLevel {
+        /// Log warnings and errors.
+        case warn
+
+        /// Log only errors.
+        case error
+
+        /// Don't log anything.
+        case none
+    }
+
     /// Parses the given input and returns all recognized publications, preambles, comments, and encountered errors.
-    public static func parse(_ input: String) throws -> (publications: [Publication], preambles: [String], comments: [String], errors: [ParserError]) {
+    public static func parse(_ input: String, loggingLevel: LoggingLevel = .warn) throws -> BibtexResult {
         let stringListener = BibtexStringListener()
         let bibtexParser1 = parser(for: input)
         try ParseTreeWalker().walk(stringListener, try bibtexParser1.root())
 
         let bibtexListener = BibtexListener(stringDefinitions: stringListener.definitions)
-        let errorListener = BibtexErrorListener()
+        let errorListener = BibtexErrorListener(logErrors: loggingLevel != .none)
         let bibtexParser2 = parser(for: input, errorListener: errorListener)
         try ParseTreeWalker().walk(bibtexListener, try bibtexParser2.root())
-        return (processParsedPublications(bibtexListener.publications), bibtexListener.preambles, bibtexListener.comments, errorListener.errors + bibtexListener.errors)
+        return (processParsedPublications(bibtexListener.publications), bibtexListener.preambles, bibtexListener.comments, bibtexListener.warnings, errorListener.errors + bibtexListener.errors)
     }
 
     internal static func parser(for input: String, errorListener: ANTLRErrorListener? = nil) -> BibtexParser {

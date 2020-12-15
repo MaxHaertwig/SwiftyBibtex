@@ -78,16 +78,35 @@ result.preambles  // ["Maintained by Max"]
 result.comments   // ["TODO: Add more entries"]
 ```
 
-### Access Errors
+### Access Warnings and Errors
 
 ```swift
 let result = SwiftyBibtex.parse(input)
+for warning in result.warnings {
+    print(warning.message)
+}
 for error in result.errors {
     print(error.line)
     print(error.charPositionInLine)
     print(error.message)
 }
 ```
+
+Warnings and Errors are logged to the console automatically. You can alter this behavior by setting a different logging level:
+
+```swift
+let result = SwiftyBibtex.parse(input, loggingLevel: .warn)  // Log warnings and errors.
+let result = SwiftyBibtex.parse(input, loggingLevel: .error) // Log only errors.
+let result = SwiftyBibtex.parse(input, loggingLevel: .none)  // Don't log anything.
+```
+
+Warnings are represented by one of the following types:
+
+- `DuplicateCitationKeyWarning`
+- `MismatchedDataTypeWarning`
+- `MissingRequiredFieldsWarning`
+- `UnrecognizedPublicationTypeWarning`
+- `UnusedStringDefinitionWarning`
 
 Errors are represented by one of the following types:
 
@@ -98,7 +117,7 @@ Errors are represented by one of the following types:
 - `StringDefinitionNotFoundParserError`
 - `TokenRecognitionParserError`
 
-Casting an error to one of these types allows you to get more information about it:
+Casting a warning or an error to one of these types allows you to get more information about it:
 
 ```swift
 if let extraneousInputError = error as? ExtraneousInputParserError {

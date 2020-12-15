@@ -1,5 +1,7 @@
 /// A work that is printed and bound, but without a named publisher or sponsoring institution.
 public struct Booklet: Publication {
+    internal static let requiredFields = Set(["title"])
+
     public var publicationType: PublicationType { .booklet }
     public let citationKey: String
     public let fields: [String: String]

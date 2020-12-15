@@ -1,5 +1,7 @@
 /// A part of a book having its own title.
 public struct InCollection: Publication {
+    internal static let requiredFields = Set(["author", "title", "booktitle", "publisher", "year"])
+
     public var publicationType: PublicationType { .inCollection }
     public let citationKey: String
     public let fields: [String: String]

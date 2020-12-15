@@ -1,5 +1,7 @@
 /// A report published by a school or other institution, usually numbered within a series.
 public struct TechReport: Publication {
+    internal static let requiredFields = Set(["author", "title", "institution", "year"])
+
     public var publicationType: PublicationType { .techReport }
     public let citationKey: String
     public let fields: [String: String]

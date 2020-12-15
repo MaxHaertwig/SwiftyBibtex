@@ -53,6 +53,39 @@ public enum PublicationType: Equatable, CustomStringConvertible {
             return string
         }
     }
+
+    internal var requiredFields: Set<String> {
+        switch self {
+        case .article:
+            return Article.requiredFields
+        case .book:
+            return Book.requiredFields
+        case .booklet:
+            return Booklet.requiredFields
+        case .inBook:
+            return InBook.requiredFields
+        case .inCollection:
+            return InCollection.requiredFields
+        case .inProceedings:
+            return InProceedings.requiredFields
+        case .manual:
+            return Manual.requiredFields
+        case .masterThesis:
+            return MasterThesis.requiredFields
+        case .misc:
+            return Set()
+        case .phdThesis:
+            return PhdThesis.requiredFields
+        case .proceedings:
+            return Proceedings.requiredFields
+        case .techReport:
+            return TechReport.requiredFields
+        case .unpublished:
+            return Unpublished.requiredFields
+        case .other:
+            return Set()
+        }
+    }
 }
 
 /// A publication.

@@ -4,7 +4,7 @@ import XCTest
 
 final class BibtexPublicationListenerTests: XCTestCase {
     private static func parse(_ input: String, stringDefinitions: [String: String] = [:]) -> BibtexListener {
-        let listener = BibtexListener(stringDefinitions: stringDefinitions)
+        let listener = BibtexListener(stringDefinitions: stringDefinitions.mapValues { ($0, 0, 0) }, loggingLevel: .none)
         let bibtexParser = SwiftyBibtex.parser(for: input)
         try! ParseTreeWalker().walk(listener, try! bibtexParser.root())
         return listener
@@ -100,6 +100,66 @@ final class BibtexPublicationListenerTests: XCTestCase {
         XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "foo bar baz"]))
     }
 
+    // Warnings
+
+    func testDuplicateCitationKeyWarning() {
+        let input = """
+        @Misc{citationKey,
+            fieldName = "foo"
+        }
+        @Misc{citationKey,
+            fieldName = "foo"
+        }
+        """
+        Self.checkInput(input, produces: DuplicateCitationKeyWarning(citationKey: "citationKey", occurrences: [(1, 9), (4, 9)])!)
+    }
+
+    func testMismatchedDataTypeWarning() {
+        let input = """
+        @Misc{citationKey,
+            year = {foo}
+        }
+        """
+        let warnings = Self.parse(input).warnings
+        XCTAssertEqual(warnings.count, 1)
+        XCTAssert(warnings[0] is MismatchedDataTypeWarning)
+        print((warnings[0] as! MismatchedDataTypeWarning).line)
+        print((warnings[0] as! MismatchedDataTypeWarning).charPositionInLine)
+        XCTAssertEqual(warnings[0] as! MismatchedDataTypeWarning, MismatchedDataTypeWarning(fieldName: "year", line: 2, charPositionInLine: 12, actualDataType: "String", expectedDataType: "Int"))
+    }
+
+    func testMissingRequiredFieldsWarning() {
+        let input = """
+        @Article{citationKey,
+            title = {foo},
+            year = {2020}
+        }
+        """
+        Self.checkInput(input, produces: MissingRequiredFieldsWarning(citationKey: "citationKey", publicationType: .article, missingFields: ["author", "journal"]))
+    }
+
+    func testUnrecognizedPublicationTypeWarning() {
+        let input = """
+        @Code{citationKey,
+            title = {SwiftyBibtex}
+        }
+        """
+        Self.checkInput(input, produces: UnrecognizedPublicationTypeWarning(citationKey: "citationKey", publicationType: "Code", line: 1, charPositionInLine: 0))
+    }
+
+    func testUnusedStringDefinitionWarning() {
+        Self.checkInput("@String{foo = \"bar\"}", stringDefinitions: ["foo": "bar"], produces: UnusedStringDefinitionWarning(name: "foo", line: 0, charPositionInLine: 0))
+    }
+
+    private static func checkInput<T: ParserWarning & Equatable>(_ input: String, stringDefinitions: [String: String] = [:], produces expectedWarning: T) {
+        let warnings = Self.parse(input, stringDefinitions: stringDefinitions).warnings
+        XCTAssertEqual(warnings.count, 1, "Input produced no or more than one warning.")
+        XCTAssert(warnings[0] is T, "Warning of type \(type(of: warnings[0])) is not of type \(T.self)")
+        XCTAssertEqual(warnings[0] as! T, expectedWarning)
+    }
+
+    // Errors
+
     func testStringDefinitionNotFoundParserError() {
         let input = """
         @Article{citationKey,
@@ -112,6 +172,8 @@ final class BibtexPublicationListenerTests: XCTestCase {
         XCTAssertEqual(errors[0] as! StringDefinitionNotFoundParserError, StringDefinitionNotFoundParserError(line: 2, charPositionInLine: 16, string: "foo"))
         XCTAssertEqual(errors[1] as! StringDefinitionNotFoundParserError, StringDefinitionNotFoundParserError(line: 2, charPositionInLine: 30, string: "baz"))
     }
+
+    // Utils
     
     private func testCurlyFieldValue(_ fieldValue: String) {
         testFieldValue("{\(fieldValue)}", expected: fieldValue)

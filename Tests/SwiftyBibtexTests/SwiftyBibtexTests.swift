@@ -19,7 +19,7 @@ final class SwiftyBibtexTests: XCTestCase {
         @Comment(bar)
         error
         """
-        let result = try! SwiftyBibtex.parse(input)
+        let result = try! SwiftyBibtex.parse(input, loggingLevel: .none)
         XCTAssertEqual(result.publications.count, 1)
         
         let publication = result.publications[0]
@@ -44,7 +44,7 @@ final class SwiftyBibtexTests: XCTestCase {
         for (fileName, publications, preambles, comments) in examples {
             let url = Bundle.module.url(forResource: fileName, withExtension: "bib", subdirectory: "Resources")!
             let input = try! String(contentsOf: url)
-            let result = try! SwiftyBibtex.parse(input)
+            let result = try! SwiftyBibtex.parse(input, loggingLevel: .none)
             XCTAssertEqual(result.publications.count, publications)
             XCTAssertEqual(result.preambles.count, preambles)
             XCTAssertEqual(result.comments.count, comments)

@@ -1,5 +1,7 @@
 /// Conference proceedings.
 public struct Proceedings: Publication {
+    internal static let requiredFields = Set(["title", "year"])
+
     public var publicationType: PublicationType { .proceedings }
     public let citationKey: String
     public let fields: [String: String]
