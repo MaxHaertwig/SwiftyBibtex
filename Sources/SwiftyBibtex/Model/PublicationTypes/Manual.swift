@@ -5,22 +5,25 @@ public struct Manual: Publication {
     public var publicationType: PublicationType { .manual }
     public let citationKey: String
     public let fields: [String: String]
+    public let rangeInFile: RangeInFile
     
     // Required
-    let title: String
+    public let title: String
 
     // Optional
-    let author: String?
-    let organization: String?
-    let address: String?
-    let edition: String?
-    let month: Month?
-    let year: Int?
-    let note: String?
+    public let author: String?
+    public let organization: String?
+    public let address: String?
+    public let edition: String?
+    public let month: Month?
+    public let year: Int?
+    public let note: String?
     
-    init(citationKey: String, fields: [String: String], title: String) {
+    internal init(citationKey: String, fields: [String: String], rangeInFile: RangeInFile, title: String) {
         self.citationKey = citationKey
         self.fields = fields
+        self.rangeInFile = rangeInFile
+
         self.title = title
         
         self.author = fields["author"]

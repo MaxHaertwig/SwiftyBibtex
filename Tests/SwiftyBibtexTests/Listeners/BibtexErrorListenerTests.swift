@@ -24,7 +24,7 @@ final class BibtexErrorListenerTests: XCTestCase {
     // Extraneous Input
 
     func testArbitraryString() {
-        Self.checkInput("foo", produces: ExtraneousInputParserError(line: 1, charPositionInLine: 0, offendingSymbol: "foo", expectedSymbols: ["<EOF>"]))
+        Self.checkInput("foo", produces: ExtraneousInputParserError(positionInFile: PositionInFile(1, 0), offendingSymbol: "foo", expectedSymbols: ["<EOF>"]))
     }
 
     // Mismatched Input
@@ -35,7 +35,7 @@ final class BibtexErrorListenerTests: XCTestCase {
             author={Max}
         }
         """
-        Self.checkInput(input, produces: MismatchedInputParserError(line: 2, charPositionInLine: 10, offendingSymbol: "={", expectedSymbols: ["','"]))
+        Self.checkInput(input, produces: MismatchedInputParserError(positionInFile: PositionInFile(2, 10), offendingSymbol: "={", expectedSymbols: ["','"]))
     }
 
     func testDoubleEquals() {
@@ -44,7 +44,7 @@ final class BibtexErrorListenerTests: XCTestCase {
             author=={Max}
         }
         """
-        Self.checkInput(input, produces: MismatchedInputParserError(line: 2, charPositionInLine: 11, offendingSymbol: "={", expectedSymbols: ["Name", "String Literal"]))
+        Self.checkInput(input, produces: MismatchedInputParserError(positionInFile: PositionInFile(2, 11), offendingSymbol: "={", expectedSymbols: ["Name", "String Literal"]))
     }
 
     // Missing Symbol
@@ -55,7 +55,7 @@ final class BibtexErrorListenerTests: XCTestCase {
             author={{Max}
         }
         """
-        Self.checkInput(input, produces: MissingSymbolParserError(line: 3, charPositionInLine: 1, missingSymbol: "'}'", location: "<EOF>"))
+        Self.checkInput(input, produces: MissingSymbolParserError(positionInFile: PositionInFile(3, 1), missingSymbol: "'}'", location: "<EOF>"))
     }
 
     // No Viable Alternative
@@ -67,13 +67,13 @@ final class BibtexErrorListenerTests: XCTestCase {
             author={Max}
         }
         """
-        Self.checkInput(input, produces: NoViableAlternativeParserError(line: 2, charPositionInLine: 9, offendingSymbol: "title,"))
+        Self.checkInput(input, produces: NoViableAlternativeParserError(positionInFile: PositionInFile(2, 9), offendingSymbol: "title,"))
     }
 
     // Token Recognition
 
     func testInvalidInput() {
-        Self.checkInput("你", produces: TokenRecognitionParserError(line: 1, charPositionInLine: 0, offendingSymbol: "你"))
+        Self.checkInput("你", produces: TokenRecognitionParserError(positionInFile: PositionInFile(1, 0), offendingSymbol: "你"))
     }
 
     static var allTests = [

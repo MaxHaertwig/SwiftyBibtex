@@ -3,11 +3,8 @@ public struct MismatchedDataTypeWarning: ParserWarning, Equatable {
     /// The field's name.
     public let fieldName: String
 
-    /// The line on which the field is defined.
-    public let line: Int
-
-    /// The first charracter of the field's name.
-    public let charPositionInLine: Int
+    /// The position of the field's name.
+    public let positionInFile: PositionInFile
 
     /// The field's actual data type.
     public let actualDataType: String

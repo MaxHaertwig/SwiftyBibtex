@@ -3,7 +3,7 @@ import XCTest
 
 final class TokenRecognitionParserErrorTests: XCTestCase {
     func testMessage() {
-        let error = TokenRecognitionParserError(line: 1, charPositionInLine: 2, offendingSymbol: "你")
+        let error = TokenRecognitionParserError(positionInFile: PositionInFile(1, 2), offendingSymbol: "你")
         XCTAssertEqual(error.message, "Token recognition error at '你'")
     }
 }

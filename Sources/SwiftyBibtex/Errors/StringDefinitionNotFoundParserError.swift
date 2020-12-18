@@ -1,7 +1,6 @@
 /// An error occurring when a string couldn't be replaced by a string definition.
 public struct StringDefinitionNotFoundParserError: ParserError, Equatable {
-    public var line: Int
-    public var charPositionInLine: Int
+    public var positionInFile: PositionInFile
 
     /// The offending string.
     public var string: String

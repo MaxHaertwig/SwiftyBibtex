@@ -17,7 +17,9 @@ public func allTests() -> [XCTestCaseEntry] {
         testCase(BibtexStringListenerTests.allTests),
         // Model
         testCase(MonthTests.allTests),
+        testCase(PositionInFileTests.allTests),
         testCase(PublicationTypesTests.allTests),
+        testCase(RangeInFileTests.allTests),
         // Utils
         testCase(ExtensionsTests.allTests)
     ]

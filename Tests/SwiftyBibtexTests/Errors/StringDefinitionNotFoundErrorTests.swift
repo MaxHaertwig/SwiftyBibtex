@@ -4,7 +4,7 @@ import XCTest
 
 final class StringDefinitionNotFoundParserErrorTests: XCTestCase {
     func testMessage() {
-        let error = StringDefinitionNotFoundParserError(line: 1, charPositionInLine: 2, string: "foo")
+        let error = StringDefinitionNotFoundParserError(positionInFile: PositionInFile(1, 2), string: "foo")
         XCTAssertEqual(error.message, "Definition for string \"foo\" couldn't be found.")
     }
 }

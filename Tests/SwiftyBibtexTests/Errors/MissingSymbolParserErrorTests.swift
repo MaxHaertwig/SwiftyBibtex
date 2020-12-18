@@ -3,7 +3,7 @@ import XCTest
 
 final class MissingSymbolParserErrorTests: XCTestCase {
     func testMessage() {
-        let error = MissingSymbolParserError(line: 1, charPositionInLine: 2, missingSymbol: "','", location: "<EOF>")
+        let error = MissingSymbolParserError(positionInFile: PositionInFile(1, 2), missingSymbol: "','", location: "<EOF>")
         XCTAssertEqual(error.message, "Missing ',' at '<EOF>'")
     }
 }

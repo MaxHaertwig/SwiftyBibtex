@@ -38,6 +38,7 @@ let publication = publications[0]
 publication.publicationType  // PublicationType.article
 publication.citationKey      // "max20"
 publication.fields           // ["author": "Max", ...]
+publication.rangeInFile      // (1:0)...(12:0)
 ```
 
 #### Publication Types

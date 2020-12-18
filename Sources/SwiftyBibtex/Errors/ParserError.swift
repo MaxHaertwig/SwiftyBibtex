@@ -1,10 +1,7 @@
 /// An error that occurred during the parsing process.
 public protocol ParserError: CustomStringConvertible {
-    /// The line of the input on which the error occurred.
-    var line: Int { get }
-
-    /// The error's position in line.
-    var charPositionInLine: Int { get }
+    /// The error's position in the source file.
+    var positionInFile: PositionInFile { get }
 
     /// The error message.
     var message: String { get }
@@ -12,6 +9,6 @@ public protocol ParserError: CustomStringConvertible {
 
 public extension ParserError {
     var description: String {
-        return "Error: line \(line):\(charPositionInLine) \(message)"
+        return "Error: line \(positionInFile.line):\(positionInFile.positionInLine) \(message)"
     }
 }

@@ -1,7 +1,6 @@
 /// An error occurring when extraneous input is encountered.
 public struct ExtraneousInputParserError: ParserError, Equatable {
-    public let line: Int
-    public let charPositionInLine: Int
+    public var positionInFile: PositionInFile
 
     /// The offending symbol.
     public let offendingSymbol: String

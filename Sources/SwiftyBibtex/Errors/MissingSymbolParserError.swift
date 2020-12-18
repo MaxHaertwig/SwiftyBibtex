@@ -1,7 +1,6 @@
 /// An error occurring when the parser encounters a missing symbol.
 public struct MissingSymbolParserError: ParserError, Equatable {
-    public let line: Int
-    public let charPositionInLine: Int
+    public var positionInFile: PositionInFile
 
     /// The missing symbol.
     public let missingSymbol: String

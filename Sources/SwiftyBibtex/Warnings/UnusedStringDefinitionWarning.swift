@@ -3,13 +3,10 @@ public struct UnusedStringDefinitionWarning: ParserWarning, Equatable {
     /// The string definition's name.
     public let name: String
 
-    /// The line on which the string was defined.
-    public let line: Int
-
-    /// The string definition's position on its line.
-    public let charPositionInLine: Int
+    /// The string definition's position in the source file.
+    public let positionInFile: PositionInFile
 
     public var message: String {
-        return "Unused string definition \"\(name)\" on (\(line):\(charPositionInLine))."
+        return "Unused string definition \"\(name)\" on (\(positionInFile.line):\(positionInFile.positionInLine))."
     }
 }

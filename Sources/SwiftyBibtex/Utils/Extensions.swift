@@ -1,3 +1,4 @@
+import Antlr4
 import Foundation
 
 internal extension Dictionary where Key == String, Value == String {
@@ -34,5 +35,21 @@ internal extension NSTextCheckingResult {
             return String(string[swiftRange])
         }
         return nil
+    }
+}
+
+internal extension Token {
+    var positionInFile: PositionInFile {
+        return PositionInFile(getLine(), getCharPositionInLine())
+    }
+}
+
+internal extension ParserRuleContext {
+    var positionInFile: PositionInFile {
+        return getStart()?.positionInFile ?? PositionInFile(-1, -1)
+    }
+
+    var rangeInFile: RangeInFile {
+        return RangeInFile(positionInFile, getStop()?.positionInFile ?? PositionInFile(-1, -1))
     }
 }

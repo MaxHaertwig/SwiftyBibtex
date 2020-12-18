@@ -1,7 +1,6 @@
 /// An error occurring when the input doesn't match what the parser expects.
 public struct MismatchedInputParserError: ParserError, Equatable {
-    public let line: Int
-    public let charPositionInLine: Int
+    public var positionInFile: PositionInFile
 
     /// The offending symbol.
     public let offendingSymbol: String

@@ -6,11 +6,8 @@ public struct UnrecognizedPublicationTypeWarning: ParserWarning, Equatable {
     /// The publication's indicated type.
     public let publicationType: String
 
-    /// The line on which the publication was defined.
-    public let line: Int
-
-    /// The publication's position on its line.
-    public let charPositionInLine: Int
+    /// The position at which the publication was defined.
+    public let positionInFile: PositionInFile
 
     public var message: String {
         return "The publication \"\(citationKey)\" has an unrecognized type: \(publicationType)."

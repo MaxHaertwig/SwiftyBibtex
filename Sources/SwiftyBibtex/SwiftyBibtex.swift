@@ -52,18 +52,18 @@ public enum SwiftyBibtex {
                    let title = publication.fields["title"],
                    let journal = publication.fields["journal"],
                    let year = publication.fields.year {
-                    return Article(citationKey: publication.citationKey, fields: publication.fields, author: author, title: title, journal: journal, year: year)
+                    return Article(citationKey: publication.citationKey, fields: publication.fields, rangeInFile: publication.rangeInFile, author: author, title: title, journal: journal, year: year)
                 }
             case .book:
                 if let author = publication.fields["author"],
                    let title = publication.fields["title"],
                    let publisher = publication.fields["publisher"],
                    let year = publication.fields.year {
-                    return Book(citationKey: publication.citationKey, fields: publication.fields, author: author, title: title, publisher: publisher, year: year)
+                    return Book(citationKey: publication.citationKey, fields: publication.fields, rangeInFile: publication.rangeInFile, author: author, title: title, publisher: publisher, year: year)
                 }
             case .booklet:
                 if let title = publication.fields["title"] {
-                    return Booklet(citationKey: publication.citationKey, fields: publication.fields, title: title)
+                    return Booklet(citationKey: publication.citationKey, fields: publication.fields, rangeInFile: publication.rangeInFile, title: title)
                 }
             case .inBook:
                 if let author = publication.fields["author"],
@@ -72,7 +72,7 @@ public enum SwiftyBibtex {
                    let pages = publication.fields["pages"],
                    let publisher = publication.fields["publisher"],
                    let year = publication.fields.year {
-                    return InBook(citationKey: publication.citationKey, fields: publication.fields, author: author, title: title, chapter: chapter, pages: pages, publisher: publisher, year: year)
+                    return InBook(citationKey: publication.citationKey, fields: publication.fields, rangeInFile: publication.rangeInFile, author: author, title: title, chapter: chapter, pages: pages, publisher: publisher, year: year)
                 }
             case .inCollection:
                 if let author = publication.fields["author"],
@@ -80,57 +80,57 @@ public enum SwiftyBibtex {
                    let bookTitle = publication.fields["booktitle"],
                    let publisher = publication.fields["publisher"],
                    let year = publication.fields.year {
-                    return InCollection(citationKey: publication.citationKey, fields: publication.fields, author: author, title: title, bookTitle: bookTitle, publisher: publisher, year: year)
+                    return InCollection(citationKey: publication.citationKey, fields: publication.fields, rangeInFile: publication.rangeInFile, author: author, title: title, bookTitle: bookTitle, publisher: publisher, year: year)
                 }
             case .inProceedings:
                 if let author = publication.fields["author"],
                    let title = publication.fields["title"],
                    let bookTitle = publication.fields["booktitle"],
                    let year = publication.fields.year {
-                    return InProceedings(citationKey: publication.citationKey, fields: publication.fields, author: author, title: title, bookTitle: bookTitle, year: year)
+                    return InProceedings(citationKey: publication.citationKey, fields: publication.fields, rangeInFile: publication.rangeInFile, author: author, title: title, bookTitle: bookTitle, year: year)
                 }
             case .manual:
                 if let title = publication.fields["title"] {
-                    return Manual(citationKey: publication.citationKey, fields: publication.fields, title: title)
+                    return Manual(citationKey: publication.citationKey, fields: publication.fields, rangeInFile: publication.rangeInFile, title: title)
                 }
             case .masterThesis:
                 if let author = publication.fields["author"],
                    let title = publication.fields["title"],
                    let school = publication.fields["school"],
                    let year = publication.fields.year {
-                    return MasterThesis(citationKey: publication.citationKey, fields: publication.fields, author: author, title: title, school: school, year: year)
+                    return MasterThesis(citationKey: publication.citationKey, fields: publication.fields, rangeInFile: publication.rangeInFile, author: author, title: title, school: school, year: year)
                 }
             case .misc:
-                return Misc(citationKey: publication.citationKey, fields: publication.fields)
+                return Misc(citationKey: publication.citationKey, fields: publication.fields, rangeInFile: publication.rangeInFile)
             case .phdThesis:
                 if let author = publication.fields["author"],
                    let title = publication.fields["title"],
                    let school = publication.fields["school"],
                    let year = publication.fields.year {
-                    return PhdThesis(citationKey: publication.citationKey, fields: publication.fields, author: author, title: title, school: school, year: year)
+                    return PhdThesis(citationKey: publication.citationKey, fields: publication.fields, rangeInFile: publication.rangeInFile, author: author, title: title, school: school, year: year)
                 }
             case .proceedings:
                 if let title = publication.fields["title"],
                    let year = publication.fields.year {
-                    return Proceedings(citationKey: publication.citationKey, fields: publication.fields, title: title, year: year)
+                    return Proceedings(citationKey: publication.citationKey, fields: publication.fields, rangeInFile: publication.rangeInFile, title: title, year: year)
                 }
             case .techReport:
                 if let author = publication.fields["author"],
                    let title = publication.fields["title"],
                    let institution = publication.fields["institution"],
                    let year = publication.fields.year {
-                    return TechReport(citationKey: publication.citationKey, fields: publication.fields, author: author, title: title, institution: institution, year: year)
+                    return TechReport(citationKey: publication.citationKey, fields: publication.fields, rangeInFile: publication.rangeInFile, author: author, title: title, institution: institution, year: year)
                 }
             case .unpublished:
                 if let author = publication.fields["author"],
                    let title = publication.fields["title"],
                    let note = publication.fields["note"] {
-                    return Unpublished(citationKey: publication.citationKey, fields: publication.fields, author: author, title: title, note: note)
+                    return Unpublished(citationKey: publication.citationKey, fields: publication.fields, rangeInFile: publication.rangeInFile, author: author, title: title, note: note)
                 }
             default:
                 break
             }
-            return AnyPublication(publicationType: publicationType, citationKey: publication.citationKey, fields: publication.fields)
+            return AnyPublication(publicationType: publicationType, citationKey: publication.citationKey, fields: publication.fields, rangeInFile: publication.rangeInFile)
         }
     }
 }

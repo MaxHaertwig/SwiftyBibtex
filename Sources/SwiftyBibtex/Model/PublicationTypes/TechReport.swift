@@ -5,23 +5,26 @@ public struct TechReport: Publication {
     public var publicationType: PublicationType { .techReport }
     public let citationKey: String
     public let fields: [String: String]
+    public let rangeInFile: RangeInFile
     
     // Required
-    let author: String
-    let title: String
-    let institution: String
-    let year: Int
+    public let author: String
+    public let title: String
+    public let institution: String
+    public let year: Int
 
     // Optional
-    let type: String?
-    let number: Int?
-    let address: String?
-    let month: Month?
-    let note: String?
+    public let type: String?
+    public let number: Int?
+    public let address: String?
+    public let month: Month?
+    public let note: String?
     
-    init(citationKey: String, fields: [String: String], author: String, title: String, institution: String, year: Int) {
+    internal init(citationKey: String, fields: [String: String], rangeInFile: RangeInFile, author: String, title: String, institution: String, year: Int) {
         self.citationKey = citationKey
         self.fields = fields
+        self.rangeInFile = rangeInFile
+        
         self.author = author
         self.title = title
         self.institution = institution

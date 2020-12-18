@@ -15,11 +15,9 @@ final class BibtexStringListenerTests: XCTestCase {
         try! ParseTreeWalker().walk(listener, try! bibtexParser.root())
         XCTAssertEqual(listener.definitions.count, 2)
         XCTAssertEqual(listener.definitions["foo"]!.replacement, "bar")
-        XCTAssertEqual(listener.definitions["foo"]!.line, 1)
-        XCTAssertEqual(listener.definitions["foo"]!.charPositionInLine, 0)
+        XCTAssertEqual(listener.definitions["foo"]!.position, PositionInFile(1, 0))
         XCTAssertEqual(listener.definitions["fooBar"]!.replacement, " baz  ")
-        XCTAssertEqual(listener.definitions["fooBar"]!.line, 2)
-        XCTAssertEqual(listener.definitions["fooBar"]!.charPositionInLine, 0)
+        XCTAssertEqual(listener.definitions["fooBar"]!.position, PositionInFile(2, 0))
     }
 
     static var allTests = [

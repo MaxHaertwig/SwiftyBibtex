@@ -7,12 +7,12 @@ internal final class BibtexListener : BibtexParserBaseListener {
     private(set) var warnings = [ParserWarning]()
     private(set) var errors = [ParserError]()
 
-    private var stringDefinitions: [String: (replacement: String, line: Int, charPositionInLine: Int, used: Bool)]
+    private var stringDefinitions: [String: (replacement: String, position: PositionInFile, used: Bool)]
     private var loggingLevel: SwiftyBibtex.LoggingLevel
-    private var citationKeys = [String: [(Int, Int)]]()
+    private var citationKeys = [String: [PositionInFile]]()
     
-    init(stringDefinitions: [String: (replacement: String, line: Int, charPositionInLine: Int)] = [:], loggingLevel: SwiftyBibtex.LoggingLevel = .none) {
-        self.stringDefinitions = stringDefinitions.mapValues { ($0.replacement, $0.line, $0.charPositionInLine, false) }
+    init(stringDefinitions: [String: (replacement: String, position: PositionInFile)] = [:], loggingLevel: SwiftyBibtex.LoggingLevel = .none) {
+        self.stringDefinitions = stringDefinitions.mapValues { ($0.replacement, $0.position, false) }
         self.loggingLevel = loggingLevel
     }
 
@@ -37,7 +37,7 @@ internal final class BibtexListener : BibtexParserBaseListener {
 
             if Self.intFields.contains(fieldName) && Int(value) == nil {
                 let contextStart = ctx.curlyValue()?.getStart() ?? ctx.concatString()?.getStart()
-                let warning = MismatchedDataTypeWarning(fieldName: fieldName, line: contextStart?.getLine() ?? 0, charPositionInLine: contextStart?.getCharPositionInLine() ?? 0, actualDataType: String(describing: String.self), expectedDataType: String(describing: Int.self))
+                let warning = MismatchedDataTypeWarning(fieldName: fieldName, positionInFile: contextStart?.positionInFile ?? PositionInFile(-1, -1), actualDataType: String(describing: String.self), expectedDataType: String(describing: Int.self))
                 warnings.append(warning)
                 if loggingLevel == .warn {
                     print(warning)
@@ -47,16 +47,14 @@ internal final class BibtexListener : BibtexParserBaseListener {
     }
     
     override func exitPublication(_ ctx: BibtexParser.PublicationContext) {
-        // TODO Check for missing fields here
         if let publicationTypeString = ctx.publicationType.getText(), let citationKey = ctx.citationKey.getText() {
-            let occurrence = (ctx.citationKey.getLine(), ctx.citationKey.getCharPositionInLine())
             if citationKeys[citationKey] == nil {
-                citationKeys[citationKey] = [occurrence]
+                citationKeys[citationKey] = [ctx.positionInFile]
             } else {
-                citationKeys[citationKey]!.append(occurrence)
+                citationKeys[citationKey]!.append(ctx.positionInFile)
             }
 
-            publications.append(ParsedPublication(type: publicationTypeString, citationKey: citationKey, fields: fields))
+            publications.append(ParsedPublication(type: publicationTypeString, citationKey: citationKey, fields: fields, rangeInFile: ctx.rangeInFile))
 
             let publicationType = PublicationType(publicationTypeString)
             let missingFields = publicationType.requiredFields.filter { fields[$0] == nil }
@@ -69,7 +67,7 @@ internal final class BibtexListener : BibtexParserBaseListener {
             }
 
             if case .other(let unrecognizedType) = publicationType {
-                let warning = UnrecognizedPublicationTypeWarning(citationKey: citationKey, publicationType: unrecognizedType, line: ctx.getStart()?.getLine() ?? 0, charPositionInLine: ctx.getStart()?.getCharPositionInLine() ?? 0)
+                let warning = UnrecognizedPublicationTypeWarning(citationKey: citationKey, publicationType: unrecognizedType, positionInFile: ctx.positionInFile)
                 warnings.append(warning)
                 if loggingLevel == .warn {
                     print(warning)
@@ -92,7 +90,7 @@ internal final class BibtexListener : BibtexParserBaseListener {
 
     override func exitBibFile(_ ctx: BibtexParser.BibFileContext) {
         warnings.append(contentsOf: citationKeys.filter { $0.value.count >= 2 }.map { DuplicateCitationKeyWarning(citationKey: $0.key, occurrences: $0.value)! })
-        warnings.append(contentsOf: stringDefinitions.filter { !$0.value.used }.map { UnusedStringDefinitionWarning(name: $0.key, line: $0.value.line, charPositionInLine: $0.value.charPositionInLine) })
+        warnings.append(contentsOf: stringDefinitions.filter { !$0.value.used }.map { UnusedStringDefinitionWarning(name: $0.key, positionInFile: $0.value.position) })
         if loggingLevel == .warn {
             warnings.forEach { print($0) }
         }
@@ -108,7 +106,7 @@ internal final class BibtexListener : BibtexParserBaseListener {
                 return prefix + tuple.replacement
             }
 
-            let error = StringDefinitionNotFoundParserError(line: context.getStart()?.getLine() ?? 1, charPositionInLine: context.getStart()?.getCharPositionInLine() ?? 0, string: string)
+            let error = StringDefinitionNotFoundParserError(positionInFile: context.positionInFile, string: string)
             errors.append(error)
             if loggingLevel != .none {
                 print(error)

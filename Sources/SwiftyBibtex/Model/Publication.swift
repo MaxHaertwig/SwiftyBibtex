@@ -1,3 +1,18 @@
+/// A publication.
+public protocol Publication {
+    /// The type of the publication.
+    var publicationType: PublicationType { get }
+
+    /// The key that can be used to cite this publication.
+    var citationKey: String { get }
+
+    /// Fields containing information about the publication.
+    var fields: [String: String] { get }
+
+    /// The publication's range in its source file.
+    var rangeInFile: RangeInFile { get }
+}
+
 /// The type of a publication.
 public enum PublicationType: Equatable, CustomStringConvertible {
     case article, book, booklet, inBook, inCollection, inProceedings, manual, masterThesis, misc, phdThesis, proceedings, techReport, unpublished
@@ -86,16 +101,4 @@ public enum PublicationType: Equatable, CustomStringConvertible {
             return Set()
         }
     }
-}
-
-/// A publication.
-public protocol Publication {
-    /// The type of the publication.
-    var publicationType: PublicationType { get }
-
-    /// The key that can be used to cite this publication.
-    var citationKey: String { get }
-
-    /// Fields containing information about the publication.
-    var fields: [String: String] { get }
 }

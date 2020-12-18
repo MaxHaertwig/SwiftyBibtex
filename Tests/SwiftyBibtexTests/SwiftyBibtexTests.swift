@@ -31,8 +31,7 @@ final class SwiftyBibtexTests: XCTestCase {
         XCTAssertEqual(result.comments, ["bar"])
 
         XCTAssertEqual(result.errors.count, 1)
-        XCTAssertEqual(result.errors[0].line, 9)
-        XCTAssertEqual(result.errors[0].charPositionInLine, 0)
+        XCTAssertEqual(result.errors[0] as! ExtraneousInputParserError, ExtraneousInputParserError(positionInFile: PositionInFile(9, 0), offendingSymbol: "error", expectedSymbols: ["<EOF>"]))
     }
 
     func testExamples() {

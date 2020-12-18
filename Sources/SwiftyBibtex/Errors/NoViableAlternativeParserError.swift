@@ -1,7 +1,6 @@
 /// An error occurring when the parser can't find a viable alternative to continue parsing.
 public struct NoViableAlternativeParserError: ParserError, Equatable {
-    public let line: Int
-    public let charPositionInLine: Int
+    public var positionInFile: PositionInFile
 
     /// The offending symbol.
     public let offendingSymbol: String

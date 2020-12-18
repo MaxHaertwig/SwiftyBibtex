@@ -5,6 +5,7 @@ public struct Book: Publication {
     public var publicationType: PublicationType { .book }
     public let citationKey: String
     public let fields: [String : String]
+    public let rangeInFile: RangeInFile
     
     // Required
     public let author: String
@@ -22,9 +23,11 @@ public struct Book: Publication {
     public let month: Month?
     public let note: String?
     
-    internal init(citationKey: String, fields: [String: String], author: String, title: String, publisher: String, year: Int) {
+    internal init(citationKey: String, fields: [String: String], rangeInFile: RangeInFile, author: String, title: String, publisher: String, year: Int) {
         self.citationKey = citationKey
         self.fields = fields
+        self.rangeInFile = rangeInFile
+        
         self.author = author
         self.title = title
         self.publisher = publisher

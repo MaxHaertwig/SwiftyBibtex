@@ -3,7 +3,7 @@ import XCTest
 
 final class MismatchedInputParserErrorTests: XCTestCase {
     func testMessage() {
-        let error = MismatchedInputParserError(line: 1, charPositionInLine: 2, offendingSymbol: ",", expectedSymbols: ["'@'"])
+        let error = MismatchedInputParserError(positionInFile: PositionInFile(1, 2), offendingSymbol: ",", expectedSymbols: ["'@'"])
         XCTAssertEqual(error.message, "Mismatched input ',' expecting '@'")
     }
 }

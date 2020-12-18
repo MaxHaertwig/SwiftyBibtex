@@ -5,25 +5,28 @@ public struct Proceedings: Publication {
     public var publicationType: PublicationType { .proceedings }
     public let citationKey: String
     public let fields: [String: String]
+    public let rangeInFile: RangeInFile
     
     // Required
-    let title: String
-    let year: Int
+    public let title: String
+    public let year: Int
 
     // Optional
-    let editor: String?
-    let volume: Int?
-    var number: Int? { volume }
-    let series: String?
-    let address: String?
-    let publisher: String?
-    let organization: String?
-    let month: Month?
-    let note: String?
+    public let editor: String?
+    public let volume: Int?
+    public var number: Int? { volume }
+    public let series: String?
+    public let address: String?
+    public let publisher: String?
+    public let organization: String?
+    public let month: Month?
+    public let note: String?
     
-    init(citationKey: String, fields: [String: String], title: String, year: Int) {
+    internal init(citationKey: String, fields: [String: String], rangeInFile: RangeInFile, title: String, year: Int) {
         self.citationKey = citationKey
         self.fields = fields
+        self.rangeInFile = rangeInFile
+        
         self.title = title
         self.year = year
         

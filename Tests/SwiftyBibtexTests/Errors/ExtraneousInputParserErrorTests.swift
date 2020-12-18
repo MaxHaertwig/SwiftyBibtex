@@ -3,7 +3,7 @@ import XCTest
 
 final class ExtraneousInputParserErrorTests: XCTestCase {
     func testMessage() {
-        let error = ExtraneousInputParserError(line: 1, charPositionInLine: 2, offendingSymbol: ",", expectedSymbols: ["'@'"])
+        let error = ExtraneousInputParserError(positionInFile: PositionInFile(1, 2), offendingSymbol: ",", expectedSymbols: ["'@'"])
         XCTAssertEqual(error.message, "Extraneous input ',' expecting '@'")
     }
 }

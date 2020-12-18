@@ -4,7 +4,7 @@ import XCTest
 
 final class BibtexPublicationListenerTests: XCTestCase {
     private static func parse(_ input: String, stringDefinitions: [String: String] = [:]) -> BibtexListener {
-        let listener = BibtexListener(stringDefinitions: stringDefinitions.mapValues { ($0, 0, 0) }, loggingLevel: .none)
+        let listener = BibtexListener(stringDefinitions: stringDefinitions.mapValues { ($0, PositionInFile(0, 0)) }, loggingLevel: .none)
         let bibtexParser = SwiftyBibtex.parser(for: input)
         try! ParseTreeWalker().walk(listener, try! bibtexParser.root())
         return listener
@@ -22,7 +22,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         """
         let publications = Self.parse(input).publications
         XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "fieldValue"]))
+        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "fieldValue"], rangeInFile: RangeInFile((1, 0), (3, 0))))
     }
     
     func testPublicationWithTwoFields() {
@@ -34,7 +34,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         """
         let publications = Self.parse(input).publications
         XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "fieldValue", "fieldName2": "fieldValue2"]))
+        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "fieldValue", "fieldName2": "fieldValue2"], rangeInFile: RangeInFile((1, 0), (4, 0))))
     }
     
     func testFieldValues() {
@@ -56,8 +56,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         }
         """
         let publications = Self.parse(input, stringDefinitions: ["foo": "bar"]).publications
-        XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "barBaz"]))
+        XCTAssertEqual(publications, [ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "barBaz"], rangeInFile: RangeInFile((1, 0), (3, 0)))])
     }
 
     func testParantheses() {
@@ -67,8 +66,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         )
         """
         let publications = Self.parse(input).publications
-        XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "foo"]))
+        XCTAssertEqual(publications, [ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "foo"], rangeInFile: RangeInFile((1, 0), (3, 0)))])
     }
 
     func testPreambles() {
@@ -95,9 +93,15 @@ final class BibtexPublicationListenerTests: XCTestCase {
                     baz}
         }
         """
-        let publications = Self.parse(input).publications
-        XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "foo bar baz"]))
+        XCTAssertEqual(Self.parse(input).publications, [ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "foo bar baz"], rangeInFile: RangeInFile((1, 0), (5, 0)))])
+    }
+
+    func testRangeInFile() {
+        let input = """
+        @Misc{a,x={}} @Misc{b,
+            y={}}
+        """
+        XCTAssertEqual(Self.parse(input).publications.map(\.rangeInFile), [RangeInFile((1, 0), (1, 12)), RangeInFile((1, 14), (2, 8))])
     }
 
     // Warnings
@@ -111,7 +115,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
             fieldName = "foo"
         }
         """
-        Self.checkInput(input, produces: DuplicateCitationKeyWarning(citationKey: "citationKey", occurrences: [(1, 9), (4, 9)])!)
+        Self.checkInput(input, produces: DuplicateCitationKeyWarning(citationKey: "citationKey", occurrences: [PositionInFile(1, 9), PositionInFile(4, 9)])!)
     }
 
     func testMismatchedDataTypeWarning() {
@@ -122,10 +126,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         """
         let warnings = Self.parse(input).warnings
         XCTAssertEqual(warnings.count, 1)
-        XCTAssert(warnings[0] is MismatchedDataTypeWarning)
-        print((warnings[0] as! MismatchedDataTypeWarning).line)
-        print((warnings[0] as! MismatchedDataTypeWarning).charPositionInLine)
-        XCTAssertEqual(warnings[0] as! MismatchedDataTypeWarning, MismatchedDataTypeWarning(fieldName: "year", line: 2, charPositionInLine: 12, actualDataType: "String", expectedDataType: "Int"))
+        XCTAssertEqual(warnings[0] as! MismatchedDataTypeWarning, MismatchedDataTypeWarning(fieldName: "year", positionInFile: PositionInFile(2, 12), actualDataType: "String", expectedDataType: "Int"))
     }
 
     func testMissingRequiredFieldsWarning() {
@@ -144,11 +145,11 @@ final class BibtexPublicationListenerTests: XCTestCase {
             title = {SwiftyBibtex}
         }
         """
-        Self.checkInput(input, produces: UnrecognizedPublicationTypeWarning(citationKey: "citationKey", publicationType: "Code", line: 1, charPositionInLine: 0))
+        Self.checkInput(input, produces: UnrecognizedPublicationTypeWarning(citationKey: "citationKey", publicationType: "Code", positionInFile: PositionInFile(1, 0)))
     }
 
     func testUnusedStringDefinitionWarning() {
-        Self.checkInput("@String{foo = \"bar\"}", stringDefinitions: ["foo": "bar"], produces: UnusedStringDefinitionWarning(name: "foo", line: 0, charPositionInLine: 0))
+        Self.checkInput("@String{foo = \"bar\"}", stringDefinitions: ["foo": "bar"], produces: UnusedStringDefinitionWarning(name: "foo", positionInFile: PositionInFile(0, 0)))
     }
 
     private static func checkInput<T: ParserWarning & Equatable>(_ input: String, stringDefinitions: [String: String] = [:], produces expectedWarning: T) {
@@ -169,8 +170,8 @@ final class BibtexPublicationListenerTests: XCTestCase {
         let errors = Self.parse(input).errors
         XCTAssertEqual(errors.count, 2)
         XCTAssert(errors[0] is StringDefinitionNotFoundParserError && errors[1] is StringDefinitionNotFoundParserError)
-        XCTAssertEqual(errors[0] as! StringDefinitionNotFoundParserError, StringDefinitionNotFoundParserError(line: 2, charPositionInLine: 16, string: "foo"))
-        XCTAssertEqual(errors[1] as! StringDefinitionNotFoundParserError, StringDefinitionNotFoundParserError(line: 2, charPositionInLine: 30, string: "baz"))
+        XCTAssertEqual(errors[0] as! StringDefinitionNotFoundParserError, StringDefinitionNotFoundParserError(positionInFile: PositionInFile(2, 16), string: "foo"))
+        XCTAssertEqual(errors[1] as! StringDefinitionNotFoundParserError, StringDefinitionNotFoundParserError(positionInFile: PositionInFile(2, 30), string: "baz"))
     }
 
     // Utils
