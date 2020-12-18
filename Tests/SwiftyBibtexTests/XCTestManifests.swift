@@ -21,7 +21,13 @@ public func allTests() -> [XCTestCaseEntry] {
         testCase(PublicationTypesTests.allTests),
         testCase(RangeInFileTests.allTests),
         // Utils
-        testCase(ExtensionsTests.allTests)
+        testCase(ExtensionsTests.allTests),
+        // Warnings
+        testCase(DuplicateCitationKeyWarningTests.allTests),
+        testCase(MismatchedDataTypeWarningTests.allTests),
+        testCase(MissingRequiredFieldsWarningTests.allTests),
+        testCase(UnrecognizedPublicationTypeWarningTests.allTests),
+        testCase(UnusedStringDefinitionWarningTests.allTests)
     ]
 }
 #endif
