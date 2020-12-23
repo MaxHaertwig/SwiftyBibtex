@@ -1,5 +1,5 @@
 /// An inclusive range in a file.
-public struct RangeInFile: CustomStringConvertible, Equatable {
+public struct RangeInFile: CustomStringConvertible, Equatable, Codable {
     /// The start of the range.
     public let start: PositionInFile
 

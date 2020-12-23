@@ -1,5 +1,5 @@
 /// A position in a file.
-public struct PositionInFile: CustomStringConvertible, Comparable {
+public struct PositionInFile: CustomStringConvertible, Comparable, Codable {
     /// A line number in a file.
     public let line: Int
 
