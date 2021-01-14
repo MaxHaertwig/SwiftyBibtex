@@ -50,9 +50,27 @@ final class SwiftyBibtexTests: XCTestCase {
             XCTAssertEqual(result.errors.count, 0)
         }
     }
+
+    func testRangeInFileExample1() {
+        let url = Bundle.module.url(forResource: "Example1", withExtension: "bib", subdirectory: "Resources")!
+        let input = try! String(contentsOf: url)
+        let result = try! SwiftyBibtex.parse(input, loggingLevel: .none)
+        let keysAndRanges = result.publications.map { ($0.citationKey, $0.rangeInFile) }
+        let expectations = [
+            ("Eastman2008", RangeInFile((1, 0), (11, 0))),
+            ("Lee2006", RangeInFile((13, 0), (33, 0))),
+            ("Azhar2011b", RangeInFile((35, 0), (47, 0))),
+            ("Volk2014", RangeInFile((49, 0), (61, 0))),
+            ("Goedert2008", RangeInFile((63, 0), (86, 0)))
+        ]
+        for expectation in expectations {
+            XCTAssert(keysAndRanges.contains { $0.0 == expectation.0 && $0.1 == expectation.1 })
+        }
+    }
     
     static var allTests = [
         ("testComplexExample", testComplexExample),
-        ("testExamples", testExamples)
+        ("testExamples", testExamples),
+        ("testRangeInFileExample1", testRangeInFileExample1)
     ]
 }

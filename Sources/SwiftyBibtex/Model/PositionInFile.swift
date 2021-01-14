@@ -1,9 +1,9 @@
 /// A position in a file.
 public struct PositionInFile: CustomStringConvertible, Comparable, Codable {
-    /// A line number in a file.
+    /// A line number in a file (one-based).
     public let line: Int
 
-    /// A character position in a line.
+    /// A character position in a line (zero-based).
     public let positionInLine: Int
 
     internal init(_ line: Int, _ positionInLine: Int) {
