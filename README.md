@@ -150,7 +150,7 @@ https://github.com/MaxHaertwig/SwiftyBibtex.git
 Open `Package.swift` and add the following line to your package's dependencies:
 
 ```swift
-.package(url: "https://github.com/MaxHaertwig/SwiftyBibtex.git", .branch("main"))
+.package(name: "SwiftyBibtex", url: "https://github.com/MaxHaertwig/SwiftyBibtex.git", .upToNextMajor(from: "1.0.0"))
 ```
 
 ## 🦌 ANTLR
