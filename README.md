@@ -26,8 +26,12 @@ let input = """
 ### Access Publications
 
 ```swift
-let result = SwiftyBibtex.parse(input)
-result.publications
+do {
+    let result = try SwiftyBibtex.parse(input)
+    result.publications
+} catch {
+    print("Error parsing input: \(error)")
+}
 ```
 
 #### Publication Properties
@@ -76,7 +80,7 @@ if let article = publication as? Article {
 ### Access Preambles and Comments
 
 ```swift
-let result = SwiftyBibtex.parse(input)
+let result = try SwiftyBibtex.parse(input)
 result.preambles  // ["Maintained by Max"]
 result.comments   // ["TODO: Add more entries"]
 ```
@@ -84,7 +88,7 @@ result.comments   // ["TODO: Add more entries"]
 ### Access Warnings and Errors
 
 ```swift
-let result = SwiftyBibtex.parse(input)
+let result = try SwiftyBibtex.parse(input)
 for warning in result.warnings {
     print(warning.message)
 }
@@ -98,9 +102,9 @@ for error in result.errors {
 Warnings and Errors are logged to the console automatically. You can alter this behavior by setting a different logging level:
 
 ```swift
-let result = SwiftyBibtex.parse(input, loggingLevel: .warn)  // Log warnings and errors.
-let result = SwiftyBibtex.parse(input, loggingLevel: .error) // Log only errors.
-let result = SwiftyBibtex.parse(input, loggingLevel: .none)  // Don't log anything.
+let result = try SwiftyBibtex.parse(input, loggingLevel: .warn)  // Log warnings and errors.
+let result = try SwiftyBibtex.parse(input, loggingLevel: .error) // Log only errors.
+let result = try SwiftyBibtex.parse(input, loggingLevel: .none)  // Don't log anything.
 ```
 
 Warnings are represented by one of the following types:
