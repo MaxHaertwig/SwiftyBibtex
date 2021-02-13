@@ -41,6 +41,8 @@ publication.fields           // ["author": "Max", ...]
 publication.rangeInFile      // (1:0)...(12:0)
 ```
 
+Note: all keys in `fields` are lowercased.
+
 #### Publication Types
 
 You can cast publications to any of the following types:

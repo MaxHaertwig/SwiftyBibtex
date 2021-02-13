@@ -22,19 +22,19 @@ final class BibtexPublicationListenerTests: XCTestCase {
         """
         let publications = Self.parse(input).publications
         XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "fieldValue"], rangeInFile: RangeInFile((1, 0), (3, 0))))
+        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldname": "fieldValue"], rangeInFile: RangeInFile((1, 0), (3, 0))))
     }
     
     func testPublicationWithTwoFields() {
         let input = """
         @Article{citationKey,
             fieldName = {fieldValue},
-            fieldName2 = \"fieldValue2\"
+            FieldName2 = \"fieldValue2\"
         }
         """
         let publications = Self.parse(input).publications
         XCTAssertEqual(publications.count, 1)
-        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "fieldValue", "fieldName2": "fieldValue2"], rangeInFile: RangeInFile((1, 0), (4, 0))))
+        XCTAssertEqual(publications[0], ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldname": "fieldValue", "fieldname2": "fieldValue2"], rangeInFile: RangeInFile((1, 0), (4, 0))))
     }
     
     func testFieldValues() {
@@ -56,7 +56,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         }
         """
         let publications = Self.parse(input, stringDefinitions: ["foo": "bar"]).publications
-        XCTAssertEqual(publications, [ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "barBaz"], rangeInFile: RangeInFile((1, 0), (3, 0)))])
+        XCTAssertEqual(publications, [ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldname": "barBaz"], rangeInFile: RangeInFile((1, 0), (3, 0)))])
     }
 
     func testParantheses() {
@@ -66,7 +66,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
         )
         """
         let publications = Self.parse(input).publications
-        XCTAssertEqual(publications, [ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "foo"], rangeInFile: RangeInFile((1, 0), (3, 0)))])
+        XCTAssertEqual(publications, [ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldname": "foo"], rangeInFile: RangeInFile((1, 0), (3, 0)))])
     }
 
     func testPreambles() {
@@ -93,7 +93,7 @@ final class BibtexPublicationListenerTests: XCTestCase {
                     baz}
         }
         """
-        XCTAssertEqual(Self.parse(input).publications, [ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldName": "foo bar baz"], rangeInFile: RangeInFile((1, 0), (5, 0)))])
+        XCTAssertEqual(Self.parse(input).publications, [ParsedPublication(type: "Article", citationKey: "citationKey", fields: ["fieldname": "foo bar baz"], rangeInFile: RangeInFile((1, 0), (5, 0)))])
     }
 
     func testRangeInFile() {
