@@ -2,8 +2,6 @@
 
 A Swift library for parsing [BibTeX](http://www.bibtex.org) files.
 
-Disclaimer: This library is still under development.
-
 ## 📖 Usage
 
 Prepare your input as a string. Example:
